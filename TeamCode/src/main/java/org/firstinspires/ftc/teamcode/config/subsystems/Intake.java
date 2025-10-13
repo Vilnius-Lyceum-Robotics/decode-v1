@@ -13,8 +13,10 @@ import org.firstinspires.ftc.robotcore.external.Telemetry;
 public class Intake {
     private Motor intake;
     private double intakeSpeed = INTAKE_SPEED;
+    private boolean isIntakeOn = false;
     private Motor conveyor;
     private double conveyorSpeed = CONVEYOR_SPEED;
+    private boolean isConveyorOn = false;
     private Servo lift;
     private double liftAngle;
     private Telemetry telemetry;
@@ -36,11 +38,12 @@ public class Intake {
         setLift(0);
     }
     public void setIntake(boolean on){
+        isIntakeOn = on;
         intake.set(on ? intakeSpeed : 0);
     }
     public void setIntakeSpeed(double speed){
-        intakeSpeed = Range.clip(speed, 0, 1);
-        if(intake.get() != 0){
+        intakeSpeed = Range.clip(speed, -1, 1);
+        if(isIntakeOn){
             intake.set(intakeSpeed);
         }
     }
@@ -49,11 +52,12 @@ public class Intake {
     }
 
     public void setConveyor(boolean on){
+        isConveyorOn = on;
         conveyor.set(on ? conveyorSpeed : 0);
     }
     public void setConveyorSpeed(double speed){
         conveyorSpeed = Range.clip(speed, 0, 1);
-        if(conveyor.get() != 0){
+        if(isConveyorOn){
             conveyor.set(conveyorSpeed);
         }
     }
@@ -75,6 +79,7 @@ public class Intake {
 
     public void telemetry(){
         telemetry.addData("Lift angle: ", getMappedLift());
+        telemetry.addData("Lift angle raw: ", liftAngle);
         telemetry.addData("Intake speed: ", intakeSpeed);
         telemetry.addData("Conveyor speed: ", conveyorSpeed);
     }
