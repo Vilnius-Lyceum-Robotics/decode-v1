@@ -41,19 +41,26 @@ public class Intake {
     public void setIntakeSpeed(double speed){
         intakeSpeed = Range.clip(speed, 0, 1);
     }
+    public void setIntakeSpeedRel(double change){
+        setIntakeSpeed(intakeSpeed + change);
+    }
 
     public void setConveyor(boolean on){
         conveyor.set(on ? conveyorSpeed : 0);
     }
-    public void setConveyor(double speed){
+    public void setConveyorSpeed(double speed){
         conveyorSpeed = Range.clip(speed, 0, 1);
+    }
+    public void setConveyorSpeedRel(double change){
+        setConveyorSpeed(conveyorSpeed + change);
     }
 
     public double getMappedLift(){
         return Range.scale(liftAngle, LIFT_MIN, LIFT_MAX, 0, 1);
     }
     public void setLift(double mappedAngle){
-        liftAngle = Range.scale(mappedAngle, 0, 1, LIFT_MIN, LIFT_MAX);
+        double clippedMappedAngle = Range.clip(mappedAngle, 0, 1);
+        liftAngle = Range.scale(clippedMappedAngle, 0, 1, LIFT_MIN, LIFT_MAX);
         lift.setPosition(liftAngle);
     }
     public void setLiftRel(double mappedAngleChange){
@@ -61,6 +68,8 @@ public class Intake {
     }
 
     public void telemetry(){
-
+        telemetry.addData("Lift angle: ", getMappedLift());
+        telemetry.addData("Intake speed: ", intakeSpeed);
+        telemetry.addData("Conveyor speed: ", conveyorSpeed);
     }
 }
