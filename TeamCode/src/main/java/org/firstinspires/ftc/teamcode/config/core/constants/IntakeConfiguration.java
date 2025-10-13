@@ -9,9 +9,9 @@ public class IntakeConfiguration {
     public static String LIFT_SERVO = "booster";
     public static double INTAKE_SPEED = 0.4;
     public static double CONVEYOR_SPEED = 0.6;
-    public static double LIFT_MIN = 0;
-    public static double LIFT_MAX = 1;
+    public static double LIFT_MIN = 0.35;
+    public static double LIFT_MAX = 0.435;
     public static double LIFT_DOWN_POS = 0;
-    public static double LIFT_HOLD_POS = 0.35;
+    public static double LIFT_HOLD_POS = 0.4;
     public static double LIFT_UP_POS = 0.8;
 }

@@ -40,6 +40,9 @@ public class Intake {
     }
     public void setIntakeSpeed(double speed){
         intakeSpeed = Range.clip(speed, 0, 1);
+        if(intake.get() != 0){
+            intake.set(intakeSpeed);
+        }
     }
     public void setIntakeSpeedRel(double change){
         setIntakeSpeed(intakeSpeed + change);
@@ -50,6 +53,9 @@ public class Intake {
     }
     public void setConveyorSpeed(double speed){
         conveyorSpeed = Range.clip(speed, 0, 1);
+        if(conveyor.get() != 0){
+            conveyor.set(conveyorSpeed);
+        }
     }
     public void setConveyorSpeedRel(double change){
         setConveyorSpeed(conveyorSpeed + change);
