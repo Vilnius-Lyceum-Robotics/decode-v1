@@ -33,6 +33,7 @@ public class Intake {
 
         intake.set(0);
         conveyor.set(0);
+        setLift(0);
     }
     public void setIntake(boolean on){
         intake.set(on ? intakeSpeed : 0);
