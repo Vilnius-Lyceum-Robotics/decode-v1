@@ -2,6 +2,8 @@ package org.firstinspires.ftc.teamcode.opmodes.tests;
 
 import static org.firstinspires.ftc.teamcode.config.core.constants.IntakeConfiguration.*;
 
+import com.acmerobotics.dashboard.FtcDashboard;
+import com.acmerobotics.dashboard.telemetry.MultipleTelemetry;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.seattlesolvers.solverslib.command.CommandOpMode;
 import com.seattlesolvers.solverslib.gamepad.GamepadEx;
@@ -17,7 +19,7 @@ public class IntakeTest extends CommandOpMode {
     public void initialize() {
         super.reset();
 
-//        telemetry = new MultipleTelemetry(telemetry, FtcDashboard.getInstance().getTelemetry());
+        telemetry = new MultipleTelemetry(telemetry, FtcDashboard.getInstance().getTelemetry());
         intake = new Intake(hardwareMap, telemetry);
         firstDriver = new GamepadEx(gamepad1);
 
@@ -50,12 +52,12 @@ public class IntakeTest extends CommandOpMode {
                 .whenPressed(() -> intake.setIntakeSpeedRel(0.1));
     }
 
-//    @Override
-//    public void run(){
-//        super.run(); // DO NOT REMOVE! Runs FTCLib Command Scheduler
-//
-//        intake.telemetry();
-//
-//        telemetry.update(); // DO NOT REMOVE! Needed for telemetry
-//    }
+    @Override
+    public void run(){
+        super.run(); // DO NOT REMOVE! Runs FTCLib Command Scheduler
+
+        intake.telemetry();
+
+        telemetry.update(); // DO NOT REMOVE! Needed for telemetry
+    }
 }

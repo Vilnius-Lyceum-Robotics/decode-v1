@@ -1,9 +1,7 @@
 package org.firstinspires.ftc.teamcode.opmodes.tests;
 
-
-//import com.acmerobotics.dashboard.FtcDashboard;
-//import com.acmerobotics.dashboard.telemetry.MultipleTelemetry;
-//import org.firstinspires.ftc.robotcore.external.Telemetry;
+import com.acmerobotics.dashboard.FtcDashboard;
+import com.acmerobotics.dashboard.telemetry.MultipleTelemetry;
 import com.seattlesolvers.solverslib.command.CommandOpMode;
 import com.seattlesolvers.solverslib.gamepad.GamepadEx;
 import com.seattlesolvers.solverslib.gamepad.GamepadKeys;
@@ -22,7 +20,7 @@ public class ShooterTest extends CommandOpMode {
         // DO NOT REMOVE! Resetting FTCLib Command Scheduler
         super.reset();
 
-        //telemetry = new MultipleTelemetry(telemetry, FtcDashboard.getInstance().getTelemetry());
+        telemetry = new MultipleTelemetry(telemetry, FtcDashboard.getInstance().getTelemetry());
         shooter = new Shooter(hardwareMap, telemetry);
         firstDriver = new GamepadEx(gamepad1);
 
@@ -41,7 +39,7 @@ public class ShooterTest extends CommandOpMode {
         super.run(); // DO NOT REMOVE! Runs FTCLib Command Scheduler
 
         //Telemetry here
-        //shooter.telemetry();
-        //telemetry.update();
+        shooter.telemetry();
+        telemetry.update();
     }
 }

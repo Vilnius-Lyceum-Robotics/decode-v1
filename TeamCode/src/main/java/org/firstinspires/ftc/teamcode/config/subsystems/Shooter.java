@@ -11,7 +11,7 @@ public class Shooter implements ShooterConfiguration {
     double upperPercentage;
     double lowerPercentage;
     private MotorEx upper, lower;
-    //private Telemetry telemetry;
+    private Telemetry telemetry;
 
     public Shooter (HardwareMap hardwareMap, Telemetry telemetry) {
 
@@ -24,7 +24,7 @@ public class Shooter implements ShooterConfiguration {
         upper.setRunMode(Motor.RunMode.VelocityControl);
         lower.setRunMode(Motor.RunMode.VelocityControl);
 
-        //this.telemetry = telemetry;
+        this.telemetry = telemetry;
     }
 
     public void increaseUpperVelocity(double increment){
@@ -48,10 +48,10 @@ public class Shooter implements ShooterConfiguration {
         upperPercentage = 0;
     }
 
-    /*
+
     public void telemetry()
     {
         telemetry.addData("Upper motor velocity: ", upper.getVelocity());
         telemetry.addData("Lower motor velocity: ", lower.getVelocity());
-    }*/
+    }
 }
