@@ -7,7 +7,7 @@ import com.seattlesolvers.solverslib.command.CommandOpMode;
 import com.seattlesolvers.solverslib.gamepad.GamepadEx;
 import com.seattlesolvers.solverslib.gamepad.GamepadKeys;
 
-import org.firstinspires.ftc.teamcode.config.commands.Shoot;
+import org.firstinspires.ftc.teamcode.config.commands.ShootCommand;
 import org.firstinspires.ftc.teamcode.config.subsystems.Chassis;
 import org.firstinspires.ftc.teamcode.config.subsystems.Intake;
 import org.firstinspires.ftc.teamcode.config.subsystems.Shooter;
@@ -20,6 +20,7 @@ public class VLRTeleOP extends CommandOpMode {
     private Intake intake;
     private Shooter shooter;
     private Chassis chassis;
+    private ShootCommand shootCommand;
     @Override
     public void initialize() {
         super.reset();
@@ -33,21 +34,41 @@ public class VLRTeleOP extends CommandOpMode {
         firstDriver = new GamepadEx(gamepad1);
         secondDriver = new GamepadEx(gamepad2);
 
-        firstDriver.getGamepadButton(GamepadKeys.Button.TRIANGLE)
-                .whenPressed(() -> new Shoot(intake, shooter, 1));
+        shootCommand = new ShootCommand(intake, shooter, 0.5);
+        firstDriver.getGamepadButton(GamepadKeys.Button.CIRCLE)
+                .whenPressed(shootCommand);
+        firstDriver.getGamepadButton(GamepadKeys.Button.DPAD_UP)
+                .whenPressed(() -> shootCommand.addForce(0.01));
+        firstDriver.getGamepadButton(GamepadKeys.Button.DPAD_DOWN)
+                .whenPressed(() -> shootCommand.addForce(-0.01));
+        firstDriver.getGamepadButton(GamepadKeys.Button.DPAD_RIGHT)
+                .whenPressed(() -> shootCommand.addForce(0.05));
+        firstDriver.getGamepadButton(GamepadKeys.Button.DPAD_LEFT)
+                .whenPressed(() -> shootCommand.addForce(-0.05));
+        firstDriver.getGamepadButton(GamepadKeys.Button.RIGHT_BUMPER)
+                .whenPressed(() -> shootCommand.addForce(0.2));
+        firstDriver.getGamepadButton(GamepadKeys.Button.LEFT_BUMPER)
+                .whenPressed(() -> shootCommand.addForce(-0.2));
 
+        firstDriver.getGamepadButton(GamepadKeys.Button.CROSS)
+                .whenPressed(() -> intake.setIntakeSpeed(-intake.getIntakeSpeed()));
         firstDriver.getGamepadButton(GamepadKeys.Button.SQUARE)
                 .whenPressed(() -> intake.setIntake(true))
                 .whenReleased(() -> intake.setIntake(false));
+    }
 
-        waitForStart();
+    @Override
+    public void run(){
+        super.run(); // DO NOT REMOVE! Runs FTCLib Command Scheduler
 
-        while (!isStopRequested()) {
-            chassis.robotCentricDriving(
-                    firstDriver.getLeftX(),
-                    firstDriver.getLeftY(),
-                    firstDriver.getRightX()
-            );
-        }
+        chassis.robotCentricDriving(
+                firstDriver.getLeftX(),
+                firstDriver.getLeftY(),
+                firstDriver.getRightX()
+        );
+
+        telemetry.addData("Strength: ", shootCommand.getForce());
+
+        telemetry.update();
     }
 }

@@ -27,9 +27,9 @@ public class IntakeTest extends CommandOpMode {
                 .whenPressed(() -> intake.setIntake(true))
                 .whenReleased(() -> intake.setIntake(false));
 
-        firstDriver.getGamepadButton(GamepadKeys.Button.CROSS)
-                .whenPressed(() -> intake.setConveyor(true))
-                .whenReleased(() -> intake.setConveyor(false));
+//        firstDriver.getGamepadButton(GamepadKeys.Button.CROSS)
+//                .whenPressed(() -> intake.setConveyor(true))
+//                .whenReleased(() -> intake.setConveyor(false));
 
         firstDriver.getGamepadButton(GamepadKeys.Button.DPAD_UP)
                 .whenPressed(() -> intake.setLiftRel(0.1));
@@ -41,10 +41,10 @@ public class IntakeTest extends CommandOpMode {
         firstDriver.getGamepadButton(GamepadKeys.Button.CIRCLE)
                 .whenPressed(() -> intake.setLift(LIFT_HOLD_POS));
 
-        firstDriver.getGamepadButton(GamepadKeys.Button.DPAD_LEFT)
-                .whenPressed(() -> intake.setConveyorSpeedRel(-0.1));
-        firstDriver.getGamepadButton(GamepadKeys.Button.DPAD_RIGHT)
-                .whenPressed(() -> intake.setConveyorSpeedRel(0.1));
+//        firstDriver.getGamepadButton(GamepadKeys.Button.DPAD_LEFT)
+//                .whenPressed(() -> intake.setConveyorSpeedRel(-0.1));
+//        firstDriver.getGamepadButton(GamepadKeys.Button.DPAD_RIGHT)
+//                .whenPressed(() -> intake.setConveyorSpeedRel(0.1));
 
         firstDriver.getGamepadButton(GamepadKeys.Button.LEFT_BUMPER)
                 .whenPressed(() -> intake.setIntakeSpeedRel(-0.1));

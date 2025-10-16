@@ -1,6 +1,7 @@
 package org.firstinspires.ftc.teamcode.config.subsystems;
 
 import com.qualcomm.robotcore.hardware.HardwareMap;
+import com.qualcomm.robotcore.util.Range;
 import com.seattlesolvers.solverslib.command.SubsystemBase;
 import com.seattlesolvers.solverslib.hardware.motors.Motor;
 import com.seattlesolvers.solverslib.hardware.motors.MotorEx;
@@ -22,6 +23,9 @@ public class Shooter extends SubsystemBase implements ShooterConfiguration {
         upper = new MotorEx(hardwareMap, SHOOTER_UPPER, Motor.GoBILDA.BARE);
         lower = new MotorEx(hardwareMap, SHOOTER_LOWER, Motor.GoBILDA.BARE);
 
+        lower.setInverted(true);
+        upper.setInverted(true);
+
         upper.setRunMode(Motor.RunMode.VelocityControl);
         lower.setRunMode(Motor.RunMode.VelocityControl);
 
@@ -29,21 +33,14 @@ public class Shooter extends SubsystemBase implements ShooterConfiguration {
     }
 
     public void increaseUpperVelocity(double increment){
-
-        upperPercentage += increment;
-        upperPercentage = Math.max(0, Math.min(upperPercentage, 100));
-//        upper.setVelocity(-upper.getMaxRPM() * (upperPercentage/ 100.0));
-        upper.setVelocity(-6000);
+        upperPercentage = Range.clip(upperPercentage+increment, 0, 1);
+        upper.setVelocity(upper.getMaxRPM() * upperPercentage);
 
     }
 
     public void increaseLowerVelocity(double increment){
-
-        lowerPercentage += increment;
-        lowerPercentage = Math.max(0, Math.min(lowerPercentage, 100));
-//        lower.setVelocity(-upper.getMaxRPM() * (lowerPercentage/ 100.0));
-        lower.setVelocity(-6000);
-
+        lowerPercentage = Range.clip(lowerPercentage+increment, 0, 1);
+        lower.setVelocity(lower.getMaxRPM() * lowerPercentage);
     }
     public void shoot(double force){
         increaseUpperVelocity(force);

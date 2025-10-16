@@ -50,20 +50,23 @@ public class Intake extends SubsystemBase implements IntakeConfiguration {
     public void setIntakeSpeedRel(double change){
         setIntakeSpeed(intakeSpeed + change);
     }
+    public double getIntakeSpeed(){
+        return intakeSpeed;
+    }
 
-    public void setConveyor(boolean on){
-        isConveyorOn = on;
-        conveyor.set(on ? conveyorSpeed : 0);
-    }
-    public void setConveyorSpeed(double speed){
-        conveyorSpeed = Range.clip(speed, 0, 1);
-        if(isConveyorOn){
-            conveyor.set(conveyorSpeed);
-        }
-    }
-    public void setConveyorSpeedRel(double change){
-        setConveyorSpeed(conveyorSpeed + change);
-    }
+//    public void setConveyor(boolean on){
+//        isConveyorOn = on;
+//        conveyor.set(on ? conveyorSpeed : 0);
+//    }
+//    public void setConveyorSpeed(double speed){
+//        conveyorSpeed = Range.clip(speed, 0, 1);
+//        if(isConveyorOn){
+//            conveyor.set(conveyorSpeed);
+//        }
+//    }
+//    public void setConveyorSpeedRel(double change){
+//        setConveyorSpeed(conveyorSpeed + change);
+//    }
 
     public double getMappedLift(){
         return Range.scale(liftAngle, LIFT_MIN, LIFT_MAX, 0, 1);
@@ -81,6 +84,6 @@ public class Intake extends SubsystemBase implements IntakeConfiguration {
         telemetry.addData("Lift angle: ", getMappedLift());
         telemetry.addData("Lift angle raw: ", liftAngle);
         telemetry.addData("Intake speed: ", intakeSpeed);
-        telemetry.addData("Conveyor speed: ", conveyorSpeed);
+//        telemetry.addData("Conveyor speed: ", conveyorSpeed);
     }
 }
