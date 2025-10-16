@@ -12,20 +12,42 @@ import org.firstinspires.ftc.teamcode.config.subsystems.Intake;
 import org.firstinspires.ftc.teamcode.config.subsystems.Shooter;
 
 public class ShootCommand extends SequentialCommandGroup {
-    private double force;
-    public void addForce(double change){
-        force = Range.clip(force+change, 0, 1);
+    private double upperForce;
+    public void setUpperForce(double newForce){
+        upperForce = Range.clip(newForce, 0, 1);
+    }
+    public void addUpperForce(double change){
+        setForce(upperForce+change);
+    }
+    public double getUpperForce(){
+        return upperForce;
+    }
+    private double lowerForce;
+    public void setLowerForce(double newForce){
+        lowerForce = Range.clip(newForce, 0, 1);
+    }
+    public void addLowerForce(double change){
+        setForce(lowerForce+change);
+    }
+    public double getLowerForce(){
+        return lowerForce;
     }
     public void setForce(double newForce){
-        force = Range.clip(newForce, 0, 1);
+        setLowerForce(newForce);
+        setUpperForce(newForce);
     }
-    public double getForce(){
-        return force;
+    public void addForce(double change){
+        addLowerForce(change);
+        addUpperForce(change);
     }
     public ShootCommand(Intake intake, Shooter shooter, double initialForce){
-        force = initialForce;
+        this(intake, shooter, initialForce, initialForce);
+    }
+    public ShootCommand(Intake intake, Shooter shooter, double initialForceLower, double initialForceUpper){
+        lowerForce = initialForceLower;
+        upperForce = initialForceUpper;
         addCommands(
-            new InstantCommand(() -> shooter.shoot(force)),
+            new InstantCommand(() -> shooter.shoot(lowerForce, upperForce)),
             new WaitCommand(2000),
             new InstantCommand(() -> intake.setLift(LIFT_UP_POS)),
             new WaitCommand(300),

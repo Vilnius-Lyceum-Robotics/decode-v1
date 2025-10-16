@@ -43,8 +43,11 @@ public class Shooter extends SubsystemBase implements ShooterConfiguration {
         lower.setVelocity(lower.getMaxRPM() * lowerPercentage);
     }
     public void shoot(double force){
-        increaseUpperVelocity(force);
-        increaseLowerVelocity(force);
+        shoot(force, force);
+    }
+    public void shoot(double forceLower, double forceUpper){
+        increaseLowerVelocity(forceLower);
+        increaseUpperVelocity(forceUpper);
     }
     public void stop(){
         upper.stopMotor();

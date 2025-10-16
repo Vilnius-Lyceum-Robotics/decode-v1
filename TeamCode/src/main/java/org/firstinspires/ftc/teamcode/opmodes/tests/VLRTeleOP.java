@@ -38,17 +38,17 @@ public class VLRTeleOP extends CommandOpMode {
         firstDriver.getGamepadButton(GamepadKeys.Button.CIRCLE)
                 .whenPressed(shootCommand);
         firstDriver.getGamepadButton(GamepadKeys.Button.DPAD_UP)
-                .whenPressed(() -> shootCommand.addForce(0.01));
+                .whenPressed(() -> shootCommand.addLowerForce(0.05));
         firstDriver.getGamepadButton(GamepadKeys.Button.DPAD_DOWN)
-                .whenPressed(() -> shootCommand.addForce(-0.01));
+                .whenPressed(() -> shootCommand.addLowerForce(-0.05));
         firstDriver.getGamepadButton(GamepadKeys.Button.DPAD_RIGHT)
-                .whenPressed(() -> shootCommand.addForce(0.05));
+                .whenPressed(() -> shootCommand.addUpperForce(0.05));
         firstDriver.getGamepadButton(GamepadKeys.Button.DPAD_LEFT)
-                .whenPressed(() -> shootCommand.addForce(-0.05));
+                .whenPressed(() -> shootCommand.addUpperForce(-0.05));
         firstDriver.getGamepadButton(GamepadKeys.Button.RIGHT_BUMPER)
-                .whenPressed(() -> shootCommand.addForce(0.2));
+                .whenPressed(() -> shootCommand.addForce(0.05));
         firstDriver.getGamepadButton(GamepadKeys.Button.LEFT_BUMPER)
-                .whenPressed(() -> shootCommand.addForce(-0.2));
+                .whenPressed(() -> shootCommand.addForce(-0.05));
 
         firstDriver.getGamepadButton(GamepadKeys.Button.CROSS)
                 .whenPressed(() -> intake.setIntakeSpeed(-intake.getIntakeSpeed()));
@@ -67,7 +67,8 @@ public class VLRTeleOP extends CommandOpMode {
                 firstDriver.getRightX()
         );
 
-        telemetry.addData("Strength: ", shootCommand.getForce());
+        telemetry.addData("Strength lower: ", shootCommand.getLowerForce());
+        telemetry.addData("Strength upper: ", shootCommand.getUpperForce());
 
         telemetry.update();
     }
