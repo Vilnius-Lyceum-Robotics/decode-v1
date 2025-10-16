@@ -18,8 +18,8 @@ public class Shooter implements ShooterConfiguration {
         this.upperPercentage = 0;
         this.lowerPercentage = 0;
 
-        upper = new MotorEx(hardwareMap, SHOOTER_UPPER, Motor.GoBILDA.RPM_435);
-        lower = new MotorEx(hardwareMap, SHOOTER_LOWER, Motor.GoBILDA.RPM_435);
+        upper = new MotorEx(hardwareMap, SHOOTER_UPPER, Motor.GoBILDA.BARE);
+        lower = new MotorEx(hardwareMap, SHOOTER_LOWER, Motor.GoBILDA.BARE);
 
         upper.setRunMode(Motor.RunMode.VelocityControl);
         lower.setRunMode(Motor.RunMode.VelocityControl);
@@ -31,7 +31,8 @@ public class Shooter implements ShooterConfiguration {
 
         upperPercentage += increment;
         upperPercentage = Math.max(0, Math.min(upperPercentage, 100));
-        upper.setVelocity(upper.getMaxRPM() * (upperPercentage/ 100.0));
+//        upper.setVelocity(-upper.getMaxRPM() * (upperPercentage/ 100.0));
+        upper.setVelocity(-6000);
 
     }
 
@@ -39,7 +40,9 @@ public class Shooter implements ShooterConfiguration {
 
         lowerPercentage += increment;
         lowerPercentage = Math.max(0, Math.min(lowerPercentage, 100));
-        lower.setVelocity(upper.getMaxRPM() * (lowerPercentage/ 100.0));
+//        lower.setVelocity(-upper.getMaxRPM() * (lowerPercentage/ 100.0));
+        lower.setVelocity(-6000);
+
     }
     public void stop(){
         upper.stopMotor();
