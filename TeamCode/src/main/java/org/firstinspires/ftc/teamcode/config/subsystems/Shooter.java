@@ -1,13 +1,14 @@
 package org.firstinspires.ftc.teamcode.config.subsystems;
 
 import com.qualcomm.robotcore.hardware.HardwareMap;
+import com.seattlesolvers.solverslib.command.SubsystemBase;
 import com.seattlesolvers.solverslib.hardware.motors.Motor;
 import com.seattlesolvers.solverslib.hardware.motors.MotorEx;
 
 import org.firstinspires.ftc.robotcore.external.Telemetry;
 import org.firstinspires.ftc.teamcode.config.core.constants.ShooterConfiguration;
 
-public class Shooter implements ShooterConfiguration {
+public class Shooter extends SubsystemBase implements ShooterConfiguration {
     double upperPercentage;
     double lowerPercentage;
     private MotorEx upper, lower;
@@ -43,6 +44,10 @@ public class Shooter implements ShooterConfiguration {
 //        lower.setVelocity(-upper.getMaxRPM() * (lowerPercentage/ 100.0));
         lower.setVelocity(-6000);
 
+    }
+    public void shoot(double force){
+        increaseUpperVelocity(force);
+        increaseLowerVelocity(force);
     }
     public void stop(){
         upper.stopMotor();
