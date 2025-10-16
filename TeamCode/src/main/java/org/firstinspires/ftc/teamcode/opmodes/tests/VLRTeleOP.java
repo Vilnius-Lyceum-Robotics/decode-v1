@@ -8,6 +8,7 @@ import com.seattlesolvers.solverslib.gamepad.GamepadEx;
 import com.seattlesolvers.solverslib.gamepad.GamepadKeys;
 
 import org.firstinspires.ftc.teamcode.config.commands.Shoot;
+import org.firstinspires.ftc.teamcode.config.subsystems.Chassis;
 import org.firstinspires.ftc.teamcode.config.subsystems.Intake;
 import org.firstinspires.ftc.teamcode.config.subsystems.Shooter;
 
@@ -18,6 +19,7 @@ public class VLRTeleOP extends CommandOpMode {
     private GamepadEx secondDriver;
     private Intake intake;
     private Shooter shooter;
+    private Chassis chassis;
     @Override
     public void initialize() {
         super.reset();
@@ -26,6 +28,7 @@ public class VLRTeleOP extends CommandOpMode {
 
         intake = new Intake(hardwareMap, telemetry);
         shooter = new Shooter(hardwareMap, telemetry);
+        chassis = new Chassis(hardwareMap, telemetry);
 
         firstDriver = new GamepadEx(gamepad1);
         secondDriver = new GamepadEx(gamepad2);
@@ -36,5 +39,15 @@ public class VLRTeleOP extends CommandOpMode {
         firstDriver.getGamepadButton(GamepadKeys.Button.SQUARE)
                 .whenPressed(() -> intake.setIntake(true))
                 .whenReleased(() -> intake.setIntake(false));
+
+        waitForStart();
+
+        while (!isStopRequested()) {
+            chassis.robotCentricDriving(
+                    firstDriver.getLeftX(),
+                    firstDriver.getLeftY(),
+                    firstDriver.getRightX()
+            );
+        }
     }
 }
