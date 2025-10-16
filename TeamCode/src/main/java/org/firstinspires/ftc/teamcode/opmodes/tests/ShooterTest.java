@@ -9,9 +9,8 @@ import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
 import org.firstinspires.ftc.teamcode.config.subsystems.Shooter;
 
-@TeleOp(name = "Shooter test", group = "!")
+@TeleOp(name = "Shooter test", group = "Tests")
 public class ShooterTest extends CommandOpMode {
-
     private Shooter shooter;
     private GamepadEx firstDriver;
 

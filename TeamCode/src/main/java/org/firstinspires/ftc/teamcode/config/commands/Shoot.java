@@ -10,8 +10,13 @@ import com.seattlesolvers.solverslib.command.WaitCommand;
 import org.firstinspires.ftc.teamcode.config.subsystems.Intake;
 import org.firstinspires.ftc.teamcode.config.subsystems.Shooter;
 
+import java.util.concurrent.atomic.AtomicBoolean;
+
 public class Shoot extends SequentialCommandGroup {
+    private static final AtomicBoolean isRunning = new AtomicBoolean();
     public Shoot(Intake intake, Shooter shooter, double force){
+        if(isRunning.get()) return;
+        isRunning.set(true);
         addCommands(
             new InstantCommand(() -> intake.setLift(LIFT_UP_POS)),
             new WaitCommand(500),
@@ -22,5 +27,11 @@ public class Shoot extends SequentialCommandGroup {
             new InstantCommand(shooter::stop)
         );
         addRequirements(intake, shooter);
+    }
+    @Override
+    public void end(boolean interrupted) {
+        isRunning.set(false);
+
+        super.end(interrupted);
     }
 }
