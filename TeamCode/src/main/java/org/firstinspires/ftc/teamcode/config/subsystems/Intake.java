@@ -1,16 +1,16 @@
 package org.firstinspires.ftc.teamcode.config.subsystems;
 
-import static org.firstinspires.ftc.teamcode.config.core.constants.IntakeConfiguration.*;
-
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.util.Range;
+import com.seattlesolvers.solverslib.command.SubsystemBase;
 import com.seattlesolvers.solverslib.hardware.motors.Motor;
 import com.seattlesolvers.solverslib.hardware.motors.MotorEx;
 
 import org.firstinspires.ftc.robotcore.external.Telemetry;
+import org.firstinspires.ftc.teamcode.config.core.constants.IntakeConfiguration;
 
-public class Intake {
+public class Intake extends SubsystemBase implements IntakeConfiguration {
     private Motor intake;
     private double intakeSpeed = INTAKE_SPEED;
     private boolean isIntakeOn = false;
