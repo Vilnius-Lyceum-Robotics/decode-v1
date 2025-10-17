@@ -65,6 +65,21 @@ public class Shooter extends SubsystemBase implements ShooterConfiguration {
         setLowerVelocity(lowerPercentage); //Low spin isn't reflected in lowerPercentage
     }
 
+    // SIMPLE LAUNCH TO DISTANCE
+    /*
+    void launchToDistance(int distance)
+    {
+        double h = 0.000; // initial launch height
+        double H = 0.000; // target height
+        double r = 0.000; // rotor radius
+        double k = 0.000; // slip constant (to tune)
+
+        double velocity = 60*Math.sqrt(9.8 * d * d / (d + h - H))/(2*3.14*r*(1-k)*lower.getMaxRPM());
+
+        shoot(velocity);
+    }
+     */
+
 
     public void telemetry()
     {
