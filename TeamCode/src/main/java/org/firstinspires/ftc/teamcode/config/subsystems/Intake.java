@@ -15,8 +15,8 @@ public class Intake extends SubsystemBase implements IntakeConfiguration {
     private double intakeSpeed = INTAKE_SPEED;
     private boolean isIntakeOn = false;
     private Motor conveyor;
-    private double conveyorSpeed = CONVEYOR_SPEED;
-    private boolean isConveyorOn = false;
+//    private double conveyorSpeed = CONVEYOR_SPEED;
+//    private boolean isConveyorOn = false;
     private Servo lift;
     private double liftAngle;
     private Telemetry telemetry;
