@@ -35,7 +35,7 @@ public class Intake extends SubsystemBase implements IntakeConfiguration {
 
         intake.set(0);
         conveyor.set(0);
-        setLift(0);
+        setLift(LIFT_DOWN_POS);
     }
     public void setIntake(boolean on){
         isIntakeOn = on;
@@ -68,6 +68,9 @@ public class Intake extends SubsystemBase implements IntakeConfiguration {
 //        setConveyorSpeed(conveyorSpeed + change);
 //    }
 
+    public double getRealLift(){
+        return liftAngle;
+    }
     public double getMappedLift(){
         return Range.scale(liftAngle, LIFT_MIN, LIFT_MAX, 0, 1);
     }

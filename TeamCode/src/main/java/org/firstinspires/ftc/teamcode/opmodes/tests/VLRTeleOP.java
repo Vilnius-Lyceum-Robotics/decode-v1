@@ -34,27 +34,39 @@ public class VLRTeleOP extends CommandOpMode {
         firstDriver = new GamepadEx(gamepad1);
         secondDriver = new GamepadEx(gamepad2);
 
-        shootCommand = new ShootCommand(intake, shooter, 0.5);
+        final double rem = 0.85;
+        final double add = 1d/rem;
+        shootCommand = new ShootCommand(intake, shooter, 1);
         firstDriver.getGamepadButton(GamepadKeys.Button.CIRCLE)
                 .whenPressed(shootCommand);
         firstDriver.getGamepadButton(GamepadKeys.Button.DPAD_UP)
-                .whenPressed(() -> shootCommand.addLowerForce(0.05));
+                .whenPressed(() -> shootCommand.multiplyLowerForce(add));
         firstDriver.getGamepadButton(GamepadKeys.Button.DPAD_DOWN)
-                .whenPressed(() -> shootCommand.addLowerForce(-0.05));
+                .whenPressed(() -> shootCommand.multiplyLowerForce(rem));
         firstDriver.getGamepadButton(GamepadKeys.Button.DPAD_RIGHT)
-                .whenPressed(() -> shootCommand.addUpperForce(0.05));
+                .whenPressed(() -> shootCommand.multiplyUpperForce(add));
         firstDriver.getGamepadButton(GamepadKeys.Button.DPAD_LEFT)
-                .whenPressed(() -> shootCommand.addUpperForce(-0.05));
+                .whenPressed(() -> shootCommand.multiplyUpperForce(rem));
         firstDriver.getGamepadButton(GamepadKeys.Button.RIGHT_BUMPER)
-                .whenPressed(() -> shootCommand.addForce(0.05));
+                .whenPressed(() -> intake.setIntakeSpeed(intake.getIntakeSpeed()*add));
         firstDriver.getGamepadButton(GamepadKeys.Button.LEFT_BUMPER)
-                .whenPressed(() -> shootCommand.addForce(-0.05));
+                .whenPressed(() -> intake.setIntakeSpeed(intake.getIntakeSpeed()*rem));
+        firstDriver.getGamepadButton(GamepadKeys.Button.RIGHT_STICK_BUTTON)
+                .whenPressed(() -> intake.setLiftRel(0.05));
+        firstDriver.getGamepadButton(GamepadKeys.Button.LEFT_STICK_BUTTON)
+                .whenPressed(() -> intake.setLiftRel(-0.05));
 
         firstDriver.getGamepadButton(GamepadKeys.Button.CROSS)
                 .whenPressed(() -> intake.setIntakeSpeed(-intake.getIntakeSpeed()));
         firstDriver.getGamepadButton(GamepadKeys.Button.SQUARE)
-                .whenPressed(() -> intake.setIntake(true))
-                .whenReleased(() -> intake.setIntake(false));
+                .whenPressed(() -> {
+                    intake.setIntake(true);
+                    shooter.setLowSpin(true);
+                })
+                .whenReleased(() -> {
+                    intake.setIntake(false);
+                    shooter.setLowSpin(false);
+                });
     }
 
     @Override
@@ -69,6 +81,9 @@ public class VLRTeleOP extends CommandOpMode {
 
         telemetry.addData("Strength lower: ", shootCommand.getLowerForce());
         telemetry.addData("Strength upper: ", shootCommand.getUpperForce());
+        telemetry.addData("Lift pos: ", intake.getMappedLift());
+        telemetry.addData("Lift real pos: ", intake.getRealLift());
+        telemetry.addData("Intake speed: ", intake.getIntakeSpeed());
 
         telemetry.update();
     }

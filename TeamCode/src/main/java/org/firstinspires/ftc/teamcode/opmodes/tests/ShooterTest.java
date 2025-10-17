@@ -24,9 +24,9 @@ public class ShooterTest extends CommandOpMode {
         firstDriver = new GamepadEx(gamepad1);
 
         firstDriver.getGamepadButton(GamepadKeys.Button.DPAD_LEFT)
-                .whenPressed(() -> shooter.increaseUpperVelocity(10));
+                .whenPressed(() -> shooter.setUpperVelocity(1));
         firstDriver.getGamepadButton(GamepadKeys.Button.DPAD_RIGHT)
-                .whenPressed(() -> shooter.increaseLowerVelocity(10));
+                .whenPressed(() -> shooter.setLowerVelocity(1));
         firstDriver.getGamepadButton(GamepadKeys.Button.DPAD_DOWN)
                 .whenPressed(() -> shooter.stop());
     }

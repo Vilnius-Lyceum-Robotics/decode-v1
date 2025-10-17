@@ -14,6 +14,7 @@ public class Shooter extends SubsystemBase implements ShooterConfiguration {
     double lowerPercentage;
     private MotorEx upper, lower;
     private Telemetry telemetry;
+    boolean isLowSpin = false;
 
     public Shooter (HardwareMap hardwareMap, Telemetry telemetry) {
 
@@ -32,28 +33,36 @@ public class Shooter extends SubsystemBase implements ShooterConfiguration {
         this.telemetry = telemetry;
     }
 
-    public void increaseUpperVelocity(double increment){
-        upperPercentage = Range.clip(upperPercentage+increment, 0, 1);
+    public void setUpperVelocity(double value){
+        upperPercentage = Range.clip(value, 0, 1);
         upper.setVelocity(upper.getMaxRPM() * upperPercentage);
-
     }
 
-    public void increaseLowerVelocity(double increment){
-        lowerPercentage = Range.clip(lowerPercentage+increment, 0, 1);
-        lower.setVelocity(lower.getMaxRPM() * lowerPercentage);
+    public void setLowerVelocity(double value){
+        lowerPercentage = Range.clip(value, 0, 1);
+        double speedToUse = Math.max(lowerPercentage, isLowSpin ? LOW_SPIN_FORCE : 0);
+        if(speedToUse <= 1e-6){
+            lower.stopMotor();
+        }else {
+            lower.setVelocity(lower.getMaxRPM() * speedToUse);
+        }
     }
     public void shoot(double force){
         shoot(force, force);
     }
     public void shoot(double forceLower, double forceUpper){
-        increaseLowerVelocity(forceLower);
-        increaseUpperVelocity(forceUpper);
+        setLowerVelocity(forceLower);
+        setUpperVelocity(forceUpper);
     }
     public void stop(){
         upper.stopMotor();
         lower.stopMotor();
         lowerPercentage = 0;
         upperPercentage = 0;
+    }
+    public void setLowSpin(boolean lowSpin){
+        isLowSpin = lowSpin;
+        setLowerVelocity(lowerPercentage); //Low spin isn't reflected in lowerPercentage
     }
 
 

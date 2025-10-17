@@ -1,8 +1,8 @@
 package org.firstinspires.ftc.teamcode.config.core.constants;
 
-import com.bylazar.configurables.annotations.Configurable;
+import com.acmerobotics.dashboard.config.Config;
 
-@Configurable
+@Config
 public interface ChassisConfiguration {
     String LEFT_FRONT_MOTOR = "leftFront";
     String LEFT_REAR_MOTOR = "leftRear";

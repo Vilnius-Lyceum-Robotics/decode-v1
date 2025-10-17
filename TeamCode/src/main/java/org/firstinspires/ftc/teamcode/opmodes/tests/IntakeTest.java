@@ -38,8 +38,8 @@ public class IntakeTest extends CommandOpMode {
         firstDriver.getGamepadButton(GamepadKeys.Button.TRIANGLE)
                 .whenPressed(() -> intake.setLift(LIFT_UP_POS))
                 .whenReleased(() -> intake.setLift(LIFT_DOWN_POS));
-        firstDriver.getGamepadButton(GamepadKeys.Button.CIRCLE)
-                .whenPressed(() -> intake.setLift(LIFT_HOLD_POS));
+//        firstDriver.getGamepadButton(GamepadKeys.Button.CIRCLE)
+//                .whenPressed(() -> intake.setLift(LIFT_HOLD_POS));
 
 //        firstDriver.getGamepadButton(GamepadKeys.Button.DPAD_LEFT)
 //                .whenPressed(() -> intake.setConveyorSpeedRel(-0.1));
