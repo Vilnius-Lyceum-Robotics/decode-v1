@@ -12,11 +12,9 @@ import org.firstinspires.ftc.teamcode.config.subsystems.Chassis;
 import org.firstinspires.ftc.teamcode.config.subsystems.Intake;
 import org.firstinspires.ftc.teamcode.config.subsystems.Shooter;
 
-@TeleOp(group = "Main", name = "NOT TEST!!")
-
-public class VLRTeleOP extends CommandOpMode {
+@TeleOp(name="fake TeleOp")
+public class TeleOpTest extends CommandOpMode {
     private GamepadEx firstDriver;
-    private GamepadEx secondDriver;
     private Intake intake;
     private Shooter shooter;
     private Chassis chassis;
@@ -32,7 +30,6 @@ public class VLRTeleOP extends CommandOpMode {
         chassis = new Chassis(hardwareMap, telemetry);
 
         firstDriver = new GamepadEx(gamepad1);
-        secondDriver = new GamepadEx(gamepad2);
 
         final double rem = 0.85;
         final double add = 1d/rem;

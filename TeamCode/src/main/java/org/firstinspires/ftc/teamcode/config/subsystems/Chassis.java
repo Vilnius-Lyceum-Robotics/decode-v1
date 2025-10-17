@@ -15,10 +15,10 @@ public class Chassis extends SubsystemBase implements ChassisConfiguration {
     private final MecanumDrive drive;
     //private GoBildaPinpointDriver pinpoint;
     public Chassis (HardwareMap hardwareMap, Telemetry telemetry) {
-        rightFront = new MotorEx(hardwareMap, RIGHT_FRONT_MOTOR, Motor.GoBILDA.RPM_435);
-        leftFront = new MotorEx(hardwareMap, LEFT_FRONT_MOTOR, Motor.GoBILDA.RPM_435);
-        rightRear = new MotorEx(hardwareMap, RIGHT_REAR_MOTOR, Motor.GoBILDA.RPM_435);
-        leftRear = new MotorEx(hardwareMap, LEFT_REAR_MOTOR, Motor.GoBILDA.RPM_435);
+        rightFront = new MotorEx(hardwareMap, RIGHT_FRONT_MOTOR, Motor.GoBILDA.BARE);
+        leftFront = new MotorEx(hardwareMap, LEFT_FRONT_MOTOR, Motor.GoBILDA.BARE);
+        rightRear = new MotorEx(hardwareMap, RIGHT_REAR_MOTOR, Motor.GoBILDA.BARE);
+        leftRear = new MotorEx(hardwareMap, LEFT_REAR_MOTOR, Motor.GoBILDA.BARE);
 
         this.telemetry = telemetry;
 
