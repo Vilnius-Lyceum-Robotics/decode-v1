@@ -50,12 +50,15 @@ public class VLRTeleOP extends CommandOpMode {
         firstDriver.getGamepadButton(GamepadKeys.Button.LEFT_BUMPER)
                 .whenPressed(() -> intake.setIntakeSpeed(intake.getIntakeSpeed()*rem));
         firstDriver.getGamepadButton(GamepadKeys.Button.RIGHT_STICK_BUTTON)
-                .whenPressed(() -> intake.setLiftRel(0.05));
+                .whenPressed(() -> shootCommand.liftHoldPos += 0.05);
         firstDriver.getGamepadButton(GamepadKeys.Button.LEFT_STICK_BUTTON)
-                .whenPressed(() -> intake.setLiftRel(-0.05));
+                .whenPressed(() -> shootCommand.liftHoldPos -= 0.05);
 
         firstDriver.getGamepadButton(GamepadKeys.Button.CROSS)
-                .whenPressed(() -> intake.setIntakeSpeed(-intake.getIntakeSpeed()));
+                .whenPressed(() -> {
+                    intake.setIntakeSpeed(-intake.getIntakeSpeed());
+                    shooter.reverseLower();
+                });
         firstDriver.getGamepadButton(GamepadKeys.Button.SQUARE)
                 .whenPressed(() -> {
                     intake.setIntake(true);
@@ -80,7 +83,7 @@ public class VLRTeleOP extends CommandOpMode {
         telemetry.addData("Strength lower: ", shootCommand.getLowerForce());
         telemetry.addData("Strength upper: ", shootCommand.getUpperForce());
         telemetry.addData("Lift pos: ", intake.getMappedLift());
-        telemetry.addData("Lift real pos: ", intake.getRealLift());
+        telemetry.addData("Lift max: ", shootCommand.liftHoldPos);
         telemetry.addData("Intake speed: ", intake.getIntakeSpeed());
 
         telemetry.update();

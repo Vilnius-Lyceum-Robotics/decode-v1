@@ -47,6 +47,9 @@ public class Shooter extends SubsystemBase implements ShooterConfiguration {
             lower.setVelocity(lower.getMaxRPM() * speedToUse);
         }
     }
+    public void reverseLower(){
+        lower.setInverted(!lower.getInverted());
+    }
     public void shoot(double force){
         shoot(force, force);
     }

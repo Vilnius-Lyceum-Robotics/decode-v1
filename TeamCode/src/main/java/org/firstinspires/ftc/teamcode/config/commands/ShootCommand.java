@@ -1,6 +1,7 @@
 package org.firstinspires.ftc.teamcode.config.commands;
 
 import static org.firstinspires.ftc.teamcode.config.core.constants.IntakeConfiguration.LIFT_DOWN_POS;
+import static org.firstinspires.ftc.teamcode.config.core.constants.IntakeConfiguration.LIFT_HOLD_POS;
 import static org.firstinspires.ftc.teamcode.config.core.constants.IntakeConfiguration.LIFT_UP_POS;
 
 import com.qualcomm.robotcore.util.Range;
@@ -59,16 +60,19 @@ public class ShootCommand extends SequentialCommandGroup {
     public ShootCommand(Intake intake, Shooter shooter, double initialForce){
         this(intake, shooter, initialForce, initialForce);
     }
+    public double liftHoldPos = LIFT_HOLD_POS;
     public ShootCommand(Intake intake, Shooter shooter, double initialForceLower, double initialForceUpper){
         lowerForce = initialForceLower;
         upperForce = initialForceUpper;
         addCommands(
+            new InstantCommand(() -> intake.setLift(liftHoldPos)),
+            new WaitCommand(250),
             new InstantCommand(() -> shooter.shoot(lowerForce, upperForce)),
             new WaitCommand(2000),
             new InstantCommand(() -> intake.setLift(LIFT_UP_POS)),
-            new WaitCommand(1000),
-            new InstantCommand(shooter::stop),
             new WaitCommand(500),
+            new InstantCommand(shooter::stop),
+
             new InstantCommand(() -> intake.setLift(LIFT_DOWN_POS))
         );
         addRequirements(intake, shooter);
