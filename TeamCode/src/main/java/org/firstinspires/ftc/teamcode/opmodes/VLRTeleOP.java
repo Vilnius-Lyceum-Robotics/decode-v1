@@ -41,14 +41,18 @@ public class VLRTeleOP extends CommandOpMode {
         firstDriver.getGamepadButton(GamepadKeys.Button.RIGHT_BUMPER)
                 .whenPressed(new ConditionalCommand(
                         new InstantCommand(() -> shooter.stop()),
-                        shootCommand,
+                        new InstantCommand(() -> shooter.shoot()),
                         () -> shooter.isShooterOn()
                         )
                 );
         firstDriver.getGamepadButton(GamepadKeys.Button.DPAD_UP)
-                .whenPressed(() -> shootCommand.multiplyLowerForce(add));
+                .whenPressed(() -> shooter.changeLowerForce(0.1));
         firstDriver.getGamepadButton(GamepadKeys.Button.DPAD_DOWN)
-                .whenPressed(() -> shootCommand.multiplyLowerForce(rem));
+                .whenPressed(() -> shooter.changeLowerForce(-0.1));
+        firstDriver.getGamepadButton(GamepadKeys.Button.DPAD_RIGHT)
+                .whenPressed(() -> shooter.changeUpperForce(0.1));
+        firstDriver.getGamepadButton(GamepadKeys.Button.DPAD_LEFT)
+                .whenPressed(() -> shooter.changeUpperForce(-0.1));
         firstDriver.getGamepadButton(GamepadKeys.Button.CROSS)
                         .whenPressed(new BoostCommand(intake));
         firstDriver.getGamepadButton(GamepadKeys.Button.LEFT_BUMPER)
@@ -56,7 +60,7 @@ public class VLRTeleOP extends CommandOpMode {
                     if(!intake.isIntakeOn())
                     {
                         intake.setIntake(true);
-                        shooter.setLowSpin(true);
+                        if (!shooter.isShooterOn()) shooter.setLowSpin(true);
                     } else {
                         intake.setIntake(false);
                         shooter.setLowSpin(false);
@@ -76,8 +80,8 @@ public class VLRTeleOP extends CommandOpMode {
                 firstDriver.getRightX()
         );
 
-        telemetry.addData("Strength lower: ", shootCommand.getLowerForce());
-        telemetry.addData("Strength upper: ", shootCommand.getUpperForce());
+        telemetry.addData("Strength lower: ", shooter.getLowerForce());
+        telemetry.addData("Strength upper: ", shooter.getUpperForce());
         telemetry.addData("Lift pos: ", intake.getMappedLift());
         telemetry.addData("Lift max: ", shootCommand.liftHoldPos);
         telemetry.addData("Intake speed: ", intake.getIntakeSpeed());

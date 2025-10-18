@@ -62,7 +62,6 @@ public class ShootCommand extends SequentialCommandGroup {
         lowerForce = initialForceLower;
         upperForce = initialForceUpper;
         addCommands(
-            new InstantCommand(() -> shooter.shoot(lowerForce, upperForce))
         );
         addRequirements(intake, shooter);
     }

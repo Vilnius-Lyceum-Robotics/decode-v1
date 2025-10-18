@@ -17,6 +17,9 @@ public class Shooter extends SubsystemBase implements ShooterConfiguration {
     boolean isLowSpin = false;
     boolean isShooterOn = false;
 
+    double lowerForce;
+    double upperForce;
+
     public Shooter (HardwareMap hardwareMap, Telemetry telemetry) {
 
         this.upperPercentage = 0;
@@ -32,6 +35,8 @@ public class Shooter extends SubsystemBase implements ShooterConfiguration {
         lower.setRunMode(Motor.RunMode.VelocityControl);
 
         this.telemetry = telemetry;
+        this.lowerForce = 1;
+        this.upperForce = 1;
     }
 
     public void setUpperVelocity(double value){
@@ -48,10 +53,10 @@ public class Shooter extends SubsystemBase implements ShooterConfiguration {
             lower.setVelocity(lower.getMaxRPM() * speedToUse);
         }
     }
-    public void shoot(double forceLower, double forceUpper){
+    public void shoot(){
         isShooterOn = true;
-        setLowerVelocity(forceLower);
-        setUpperVelocity(forceUpper);
+        lower.set(this.lowerForce);
+        upper.set(this.upperForce);
     }
     public void stop(){
         isShooterOn = false;
@@ -87,5 +92,20 @@ public class Shooter extends SubsystemBase implements ShooterConfiguration {
     {
         telemetry.addData("Upper motor velocity: ", upper.getVelocity());
         telemetry.addData("Lower motor velocity: ", lower.getVelocity());
+    }
+    public void changeLowerForce(double amount) {
+        this.lowerForce += amount;
+    }
+
+    public void changeUpperForce(double amount) {
+        this.upperForce += amount;
+    }
+
+    public double getUpperForce() {
+        return upperForce;
+    }
+
+    public double getLowerForce() {
+        return lowerForce;
     }
 }
