@@ -15,6 +15,7 @@ public class Shooter extends SubsystemBase implements ShooterConfiguration {
     private final MotorEx upper, lower;
     private final Telemetry telemetry;
     boolean isLowSpin = false;
+    boolean isShooterOn = false;
 
     public Shooter (HardwareMap hardwareMap, Telemetry telemetry) {
 
@@ -47,17 +48,13 @@ public class Shooter extends SubsystemBase implements ShooterConfiguration {
             lower.setVelocity(lower.getMaxRPM() * speedToUse);
         }
     }
-    public void reverseLower(){
-        lower.setInverted(!lower.getInverted());
-    }
-    public void shoot(double force){
-        shoot(force, force);
-    }
     public void shoot(double forceLower, double forceUpper){
+        isShooterOn = true;
         setLowerVelocity(forceLower);
         setUpperVelocity(forceUpper);
     }
     public void stop(){
+        isShooterOn = false;
         upper.stopMotor();
         lower.stopMotor();
         lowerPercentage = 0;
@@ -67,7 +64,9 @@ public class Shooter extends SubsystemBase implements ShooterConfiguration {
         isLowSpin = lowSpin;
         setLowerVelocity(lowerPercentage); //Low spin isn't reflected in lowerPercentage
     }
-
+    public boolean isShooterOn() {
+        return isShooterOn;
+    }
     // SIMPLE LAUNCH TO DISTANCE
     /*
     void launchToDistance(int distance)

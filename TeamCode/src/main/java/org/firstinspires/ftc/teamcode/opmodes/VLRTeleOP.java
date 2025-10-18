@@ -4,6 +4,8 @@ import com.acmerobotics.dashboard.FtcDashboard;
 import com.acmerobotics.dashboard.telemetry.MultipleTelemetry;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.seattlesolvers.solverslib.command.CommandOpMode;
+import com.seattlesolvers.solverslib.command.ConditionalCommand;
+import com.seattlesolvers.solverslib.command.InstantCommand;
 import com.seattlesolvers.solverslib.gamepad.GamepadEx;
 import com.seattlesolvers.solverslib.gamepad.GamepadKeys;
 
@@ -36,8 +38,13 @@ public class VLRTeleOP extends CommandOpMode {
         final double rem = 0.85;
         final double add = 1d/rem;
         shootCommand = new ShootCommand(intake, shooter, 1);
-        firstDriver.getGamepadButton(GamepadKeys.Button.CIRCLE)
-                .whenPressed(shootCommand);
+        firstDriver.getGamepadButton(GamepadKeys.Button.RIGHT_BUMPER)
+                .whenPressed(new ConditionalCommand(
+                        new InstantCommand(() -> shooter.stop()),
+                        shootCommand,
+                        () -> shooter.isShooterOn()
+                        )
+                );
         firstDriver.getGamepadButton(GamepadKeys.Button.DPAD_UP)
                 .whenPressed(() -> shootCommand.multiplyLowerForce(add));
         firstDriver.getGamepadButton(GamepadKeys.Button.DPAD_DOWN)
