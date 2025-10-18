@@ -7,8 +7,8 @@ import com.seattlesolvers.solverslib.command.CommandOpMode;
 import com.seattlesolvers.solverslib.gamepad.GamepadEx;
 import com.seattlesolvers.solverslib.gamepad.GamepadKeys;
 
+import org.firstinspires.ftc.teamcode.config.commands.BoostCommand;
 import org.firstinspires.ftc.teamcode.config.commands.ShootCommand;
-import org.firstinspires.ftc.teamcode.config.core.constants.IntakeConfiguration;
 import org.firstinspires.ftc.teamcode.config.subsystems.Chassis;
 import org.firstinspires.ftc.teamcode.config.subsystems.Intake;
 import org.firstinspires.ftc.teamcode.config.subsystems.Shooter;
@@ -43,13 +43,8 @@ public class VLRTeleOP extends CommandOpMode {
         firstDriver.getGamepadButton(GamepadKeys.Button.DPAD_DOWN)
                 .whenPressed(() -> shootCommand.multiplyLowerForce(rem));
         firstDriver.getGamepadButton(GamepadKeys.Button.CROSS)
-                        .whenPressed(() -> {if(intake.getMappedLift() != 0) {
-                            intake.setLift(IntakeConfiguration.LIFT_DOWN_POS);
-                        } else {
-                            intake.setLift(IntakeConfiguration.LIFT_UP_POS);
-                        }
-                        });
-        firstDriver.getGamepadButton(GamepadKeys.Button.SQUARE)
+                        .whenPressed(new BoostCommand(intake));
+        firstDriver.getGamepadButton(GamepadKeys.Button.LEFT_BUMPER)
                 .whenPressed(() -> {
                     if(!intake.isIntakeOn())
                     {
