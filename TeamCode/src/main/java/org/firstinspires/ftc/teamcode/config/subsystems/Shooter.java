@@ -12,8 +12,8 @@ import org.firstinspires.ftc.teamcode.config.core.constants.ShooterConfiguration
 public class Shooter extends SubsystemBase implements ShooterConfiguration {
     double upperPercentage;
     double lowerPercentage;
-    private MotorEx upper, lower;
-    private Telemetry telemetry;
+    private final MotorEx upper, lower;
+    private final Telemetry telemetry;
     boolean isLowSpin = false;
 
     public Shooter (HardwareMap hardwareMap, Telemetry telemetry) {

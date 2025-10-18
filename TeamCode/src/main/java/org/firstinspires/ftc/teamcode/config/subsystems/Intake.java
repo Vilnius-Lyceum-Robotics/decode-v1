@@ -11,30 +11,23 @@ import org.firstinspires.ftc.robotcore.external.Telemetry;
 import org.firstinspires.ftc.teamcode.config.core.constants.IntakeConfiguration;
 
 public class Intake extends SubsystemBase implements IntakeConfiguration {
-    private Motor intake;
+    private final Motor intake;
     private double intakeSpeed = INTAKE_SPEED;
     private boolean isIntakeOn = false;
-    private Motor conveyor;
-//    private double conveyorSpeed = CONVEYOR_SPEED;
-//    private boolean isConveyorOn = false;
-    private Servo lift;
+    private final Servo lift;
     private double liftAngle;
-    private Telemetry telemetry;
+    private final Telemetry telemetry;
     public Intake(HardwareMap hardwareMap, Telemetry telemetry) {
         this.telemetry = telemetry;
 
         intake = new MotorEx(hardwareMap, INTAKE_MOTOR, Motor.GoBILDA.RPM_435);
-        conveyor = new MotorEx(hardwareMap, CONVEYOR_BELT_MOTOR, Motor.GoBILDA.RPM_435);
         lift = hardwareMap.get(Servo.class, LIFT_SERVO);
 
         intake.setInverted(true);
-        conveyor.setInverted(true);
 
         intake.setRunMode(Motor.RunMode.RawPower);
-        conveyor.setRunMode(Motor.RunMode.RawPower);
 
         intake.set(0);
-        conveyor.set(0);
         setLift(LIFT_DOWN_POS);
     }
     public void setIntake(boolean on){
@@ -53,21 +46,6 @@ public class Intake extends SubsystemBase implements IntakeConfiguration {
     public double getIntakeSpeed(){
         return intakeSpeed;
     }
-
-//    public void setConveyor(boolean on){
-//        isConveyorOn = on;
-//        conveyor.set(on ? conveyorSpeed : 0);
-//    }
-//    public void setConveyorSpeed(double speed){
-//        conveyorSpeed = Range.clip(speed, 0, 1);
-//        if(isConveyorOn){
-//            conveyor.set(conveyorSpeed);
-//        }
-//    }
-//    public void setConveyorSpeedRel(double change){
-//        setConveyorSpeed(conveyorSpeed + change);
-//    }
-
     public double getRealLift(){
         return liftAngle;
     }
@@ -88,5 +66,9 @@ public class Intake extends SubsystemBase implements IntakeConfiguration {
         telemetry.addData("Lift angle raw: ", liftAngle);
         telemetry.addData("Intake speed: ", intakeSpeed);
 //        telemetry.addData("Conveyor speed: ", conveyorSpeed);
+    }
+
+    public boolean isIntakeOn() {
+        return isIntakeOn;
     }
 }

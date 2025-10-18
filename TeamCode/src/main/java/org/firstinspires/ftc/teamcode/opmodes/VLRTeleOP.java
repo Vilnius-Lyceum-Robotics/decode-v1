@@ -8,6 +8,7 @@ import com.seattlesolvers.solverslib.gamepad.GamepadEx;
 import com.seattlesolvers.solverslib.gamepad.GamepadKeys;
 
 import org.firstinspires.ftc.teamcode.config.commands.ShootCommand;
+import org.firstinspires.ftc.teamcode.config.core.constants.IntakeConfiguration;
 import org.firstinspires.ftc.teamcode.config.subsystems.Chassis;
 import org.firstinspires.ftc.teamcode.config.subsystems.Intake;
 import org.firstinspires.ftc.teamcode.config.subsystems.Shooter;
@@ -41,33 +42,26 @@ public class VLRTeleOP extends CommandOpMode {
                 .whenPressed(() -> shootCommand.multiplyLowerForce(add));
         firstDriver.getGamepadButton(GamepadKeys.Button.DPAD_DOWN)
                 .whenPressed(() -> shootCommand.multiplyLowerForce(rem));
-        firstDriver.getGamepadButton(GamepadKeys.Button.DPAD_RIGHT)
-                .whenPressed(() -> shootCommand.multiplyUpperForce(add));
-        firstDriver.getGamepadButton(GamepadKeys.Button.DPAD_LEFT)
-                .whenPressed(() -> shootCommand.multiplyUpperForce(rem));
-        firstDriver.getGamepadButton(GamepadKeys.Button.RIGHT_BUMPER)
-                .whenPressed(() -> intake.setIntakeSpeed(intake.getIntakeSpeed()*add));
-        firstDriver.getGamepadButton(GamepadKeys.Button.LEFT_BUMPER)
-                .whenPressed(() -> intake.setIntakeSpeed(intake.getIntakeSpeed()*rem));
-        firstDriver.getGamepadButton(GamepadKeys.Button.RIGHT_STICK_BUTTON)
-                .whenPressed(() -> shootCommand.liftHoldPos += 0.05);
-        firstDriver.getGamepadButton(GamepadKeys.Button.LEFT_STICK_BUTTON)
-                .whenPressed(() -> shootCommand.liftHoldPos -= 0.05);
-
         firstDriver.getGamepadButton(GamepadKeys.Button.CROSS)
-                .whenPressed(() -> {
-                    intake.setIntakeSpeed(-intake.getIntakeSpeed());
-                    shooter.reverseLower();
-                });
+                        .whenPressed(() -> {if(intake.getMappedLift() != 0) {
+                            intake.setLift(IntakeConfiguration.LIFT_DOWN_POS);
+                        } else {
+                            intake.setLift(IntakeConfiguration.LIFT_UP_POS);
+                        }
+                        });
         firstDriver.getGamepadButton(GamepadKeys.Button.SQUARE)
                 .whenPressed(() -> {
-                    intake.setIntake(true);
-                    shooter.setLowSpin(true);
-                })
-                .whenReleased(() -> {
-                    intake.setIntake(false);
-                    shooter.setLowSpin(false);
+                    if(!intake.isIntakeOn())
+                    {
+                        intake.setIntake(true);
+                        shooter.setLowSpin(true);
+                    } else {
+                        intake.setIntake(false);
+                        shooter.setLowSpin(false);
+                    }
                 });
+        firstDriver.getGamepadButton(GamepadKeys.Button.TRIANGLE)
+                .whenPressed(() -> shooter.stop());
     }
 
     @Override
