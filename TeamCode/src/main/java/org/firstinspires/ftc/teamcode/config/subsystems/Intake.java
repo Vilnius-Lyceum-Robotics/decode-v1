@@ -1,5 +1,7 @@
 package org.firstinspires.ftc.teamcode.config.subsystems;
 
+import com.bylazar.telemetry.JoinedTelemetry;
+import com.bylazar.telemetry.PanelsTelemetry;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.util.Range;
@@ -16,9 +18,9 @@ public class Intake extends SubsystemBase implements IntakeConfiguration {
     private boolean isIntakeOn = false;
     private final Servo lift;
     private double liftAngle;
-    private final Telemetry telemetry;
+    private final JoinedTelemetry telemetry;
     public Intake(HardwareMap hardwareMap, Telemetry telemetry) {
-        this.telemetry = telemetry;
+        this.telemetry = new JoinedTelemetry(PanelsTelemetry.INSTANCE.getFtcTelemetry(), telemetry);
 
         intake = new MotorEx(hardwareMap, INTAKE_MOTOR, Motor.GoBILDA.RPM_435);
         lift = hardwareMap.get(Servo.class, LIFT_SERVO);

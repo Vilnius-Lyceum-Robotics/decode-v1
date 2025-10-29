@@ -10,17 +10,14 @@ import org.firstinspires.ftc.robotcore.external.Telemetry;
 import org.firstinspires.ftc.teamcode.config.core.constants.ChassisConfiguration;
 
 public class Chassis extends SubsystemBase implements ChassisConfiguration {
-    private Motor rightFront, leftFront, rightRear, leftRear;
-    private Telemetry telemetry;
     private final MecanumDrive drive;
+
     //private GoBildaPinpointDriver pinpoint;
     public Chassis (HardwareMap hardwareMap, Telemetry telemetry) {
-        rightFront = new MotorEx(hardwareMap, RIGHT_FRONT_MOTOR, Motor.GoBILDA.BARE);
-        leftFront = new MotorEx(hardwareMap, LEFT_FRONT_MOTOR, Motor.GoBILDA.BARE);
-        rightRear = new MotorEx(hardwareMap, RIGHT_REAR_MOTOR, Motor.GoBILDA.BARE);
-        leftRear = new MotorEx(hardwareMap, LEFT_REAR_MOTOR, Motor.GoBILDA.BARE);
-
-        this.telemetry = telemetry;
+        Motor rightFront = new MotorEx(hardwareMap, RIGHT_FRONT_MOTOR, Motor.GoBILDA.BARE);
+        Motor leftFront = new MotorEx(hardwareMap, LEFT_FRONT_MOTOR, Motor.GoBILDA.BARE);
+        Motor rightRear = new MotorEx(hardwareMap, RIGHT_REAR_MOTOR, Motor.GoBILDA.BARE);
+        Motor leftRear = new MotorEx(hardwareMap, LEFT_REAR_MOTOR, Motor.GoBILDA.BARE);
 
         rightFront.setInverted(true);
         leftFront.setInverted(true);

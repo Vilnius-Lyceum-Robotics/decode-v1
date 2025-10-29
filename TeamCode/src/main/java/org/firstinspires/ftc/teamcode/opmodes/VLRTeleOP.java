@@ -2,6 +2,8 @@ package org.firstinspires.ftc.teamcode.opmodes;
 
 import com.acmerobotics.dashboard.FtcDashboard;
 import com.acmerobotics.dashboard.telemetry.MultipleTelemetry;
+import com.bylazar.telemetry.JoinedTelemetry;
+import com.bylazar.telemetry.PanelsTelemetry;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.seattlesolvers.solverslib.command.CommandOpMode;
 import com.seattlesolvers.solverslib.command.ConditionalCommand;
@@ -27,8 +29,7 @@ public class VLRTeleOP extends CommandOpMode {
     public void initialize() {
         super.reset();
 
-        telemetry = new MultipleTelemetry(telemetry, FtcDashboard.getInstance().getTelemetry());
-
+        telemetry = new JoinedTelemetry(PanelsTelemetry.INSTANCE.getFtcTelemetry(), telemetry);
         intake = new Intake(hardwareMap, telemetry);
         shooter = new Shooter(hardwareMap, telemetry);
         chassis = new Chassis(hardwareMap, telemetry);
