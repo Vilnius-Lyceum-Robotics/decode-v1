@@ -58,6 +58,29 @@ public class Shooter extends SubsystemBase implements ShooterConfiguration {
             lower.setVelocity(lower.getMaxRPM() * speedToUse);
         }
     }
+
+    // FOR TESTING
+    public void increaseUpperVelocity(double velocity)
+    {
+        double currentSpeed = upper.getVelocity()/upper.getMaxRPM();
+        setUpperVelocity(Math.min(currentSpeed + velocity, 1.0));
+    }
+    public void increaseLowerVelocity(double velocity)
+    {
+        double currentSpeed = lower.getVelocity()/lower.getMaxRPM();
+        setLowerVelocity(Math.min(currentSpeed + velocity, 1.0));
+    }
+    public void decreaseUpperVelocity(double velocity)
+    {
+        double currentSpeed = upper.getVelocity()/upper.getMaxRPM();
+        setUpperVelocity(Math.max(0, currentSpeed - velocity));
+    }
+    public void decreaseLowerVelocity(double velocity)
+    {
+        double currentSpeed = lower.getVelocity()/lower.getMaxRPM();
+        setLowerVelocity(Math.max(0, currentSpeed - velocity));
+    }
+    //
     public void shoot(){
         isShooterOn = true;
         lower.set(this.lowerForce);

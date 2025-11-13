@@ -42,8 +42,8 @@ public class Intake extends SubsystemBase implements IntakeConfiguration {
     public void setTransfer(boolean state)
     {
         if(state) {
-            transferLeft.setPower(1.0);
-            transferRight.setPower(-1.0);
+            transferLeft.setPower(-1.0);
+            transferRight.setPower(1.0);
         }
         else {
             transferLeft.setPower(0);
