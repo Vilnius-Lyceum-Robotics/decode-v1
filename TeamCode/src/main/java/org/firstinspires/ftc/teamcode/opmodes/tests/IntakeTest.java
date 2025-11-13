@@ -15,6 +15,7 @@ import org.firstinspires.ftc.teamcode.config.subsystems.Intake;
 public class IntakeTest extends CommandOpMode {
     private Intake intake;
     private GamepadEx firstDriver;
+
     @Override
     public void initialize() {
         super.reset();
@@ -24,8 +25,14 @@ public class IntakeTest extends CommandOpMode {
         firstDriver = new GamepadEx(gamepad1);
 
         firstDriver.getGamepadButton(GamepadKeys.Button.SQUARE)
-                .whenPressed(() -> intake.setIntake(true))
-                .whenReleased(() -> intake.setIntake(false));
+                .whenPressed(() -> {
+                    intake.setIntake(true);
+                    intake.setTransfer(true);
+                })
+                .whenReleased(() -> {
+                    intake.setIntake(false);
+                    intake.setTransfer(false);
+                });
 
 //        firstDriver.getGamepadButton(GamepadKeys.Button.CROSS)
 //                .whenPressed(() -> intake.setConveyor(true))

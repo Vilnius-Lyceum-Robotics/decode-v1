@@ -1,5 +1,6 @@
 package org.firstinspires.ftc.teamcode.config.subsystems;
 
+import com.qualcomm.robotcore.hardware.CRServo;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.util.Range;
@@ -15,10 +16,16 @@ public class Intake extends SubsystemBase implements IntakeConfiguration {
     private double intakeSpeed = INTAKE_SPEED;
     private boolean isIntakeOn = false;
     private final Servo lift;
+
+    private final CRServo transferRight;
+    private final CRServo transferLeft;
     private double liftAngle;
     private final Telemetry telemetry;
     public Intake(HardwareMap hardwareMap, Telemetry telemetry) {
         this.telemetry = telemetry;
+
+        transferLeft = hardwareMap.get(CRServo.class, TRANSFER_LEFT);
+        transferRight = hardwareMap.get(CRServo.class, TRANSFER_RIGHT);
 
         intake = new MotorEx(hardwareMap, INTAKE_MOTOR, Motor.GoBILDA.RPM_435);
         lift = hardwareMap.get(Servo.class, LIFT_SERVO);
@@ -30,6 +37,18 @@ public class Intake extends SubsystemBase implements IntakeConfiguration {
         intake.set(0);
         setLift(LIFT_DOWN_POS);
     }
+    public void setTransfer(boolean state)
+    {
+        if(state) {
+            transferLeft.setPower(1.0);
+            transferRight.setPower(-1.0);
+        }
+        else {
+            transferLeft.setPower(0);
+            transferRight.setPower(0);
+        }
+    }
+
     public void setIntake(boolean on){
         isIntakeOn = on;
         intake.set(on ? intakeSpeed : 0);
