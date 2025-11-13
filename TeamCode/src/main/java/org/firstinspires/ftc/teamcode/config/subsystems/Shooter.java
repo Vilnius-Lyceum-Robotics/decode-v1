@@ -22,7 +22,7 @@ public class Shooter extends SubsystemBase implements ShooterConfiguration {
     double lowerForce;
     double upperForce;
 
-    public Shooter (HardwareMap hardwareMap, Telemetry telemetry) {
+    public Shooter(HardwareMap hardwareMap, Telemetry telemetry) {
 
         this.upperPercentage = 0;
         this.lowerPercentage = 0;
@@ -44,41 +44,37 @@ public class Shooter extends SubsystemBase implements ShooterConfiguration {
         this.upperForce = 1;
     }
 
-    public void setUpperVelocity(double value){
+    public void setUpperVelocity(double value) {
         upperPercentage = Range.clip(value, 0, 1);
         upper.setVelocity(upper.getMaxRPM() * upperPercentage);
     }
 
-    public void setLowerVelocity(double value){
+    public void setLowerVelocity(double value) {
         lowerPercentage = Range.clip(value, 0, 1);
         double speedToUse = Math.max(lowerPercentage, isLowSpin ? LOW_SPIN_FORCE : 0);
-        if(speedToUse <= 1e-6){
+        if (speedToUse <= 1e-6) {
             lower.stopMotor();
-        }else {
+        } else {
             lower.setVelocity(lower.getMaxRPM() * speedToUse);
         }
     }
 
     // FOR TESTING
-    public void increaseUpperVelocity(double velocity)
+    public void increaseUpperRPM(int RPM)
     {
-        double currentSpeed = upper.getVelocity()/upper.getMaxRPM();
-        setUpperVelocity(Math.min(currentSpeed + velocity, 1.0));
+        upper.setVelocity(Math.min(upper.getVelocity() + RPM, upper.getMaxRPM()));
     }
-    public void increaseLowerVelocity(double velocity)
+    public void increaseLowerRPM(int RPM)
     {
-        double currentSpeed = lower.getVelocity()/lower.getMaxRPM();
-        setLowerVelocity(Math.min(currentSpeed + velocity, 1.0));
+        lower.setVelocity(Math.min(lower.getVelocity() + RPM, lower.getMaxRPM()));
     }
-    public void decreaseUpperVelocity(double velocity)
+    public void decreaseUpperRPM(int RPM)
     {
-        double currentSpeed = upper.getVelocity()/upper.getMaxRPM();
-        setUpperVelocity(Math.max(0, currentSpeed - velocity));
+        upper.setVelocity(Math.max(0, upper.getVelocity() - RPM));
     }
-    public void decreaseLowerVelocity(double velocity)
+    public void decreaseLowerRPM(int RPM)
     {
-        double currentSpeed = lower.getVelocity()/lower.getMaxRPM();
-        setLowerVelocity(Math.max(0, currentSpeed - velocity));
+        lower.setVelocity(Math.max(0, lower.getVelocity() - RPM));
     }
     //
     public void shoot(){
