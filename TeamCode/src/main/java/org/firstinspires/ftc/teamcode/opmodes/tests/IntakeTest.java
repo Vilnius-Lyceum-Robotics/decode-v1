@@ -2,8 +2,8 @@ package org.firstinspires.ftc.teamcode.opmodes.tests;
 
 import static org.firstinspires.ftc.teamcode.config.core.constants.IntakeConfiguration.*;
 
-import com.acmerobotics.dashboard.FtcDashboard;
-import com.acmerobotics.dashboard.telemetry.MultipleTelemetry;
+import com.bylazar.telemetry.JoinedTelemetry;
+import com.bylazar.telemetry.PanelsTelemetry;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.seattlesolvers.solverslib.command.CommandOpMode;
 import com.seattlesolvers.solverslib.gamepad.GamepadEx;
@@ -16,13 +16,14 @@ public class IntakeTest extends CommandOpMode {
     private Intake intake;
     private GamepadEx firstDriver;
 
+
     @Override
     public void initialize() {
         super.reset();
 
-        telemetry = new MultipleTelemetry(telemetry, FtcDashboard.getInstance().getTelemetry());
+        telemetry = new JoinedTelemetry(PanelsTelemetry.INSTANCE.getFtcTelemetry(), telemetry);
         intake = new Intake(hardwareMap, telemetry);
-        firstDriver = new GamepadEx(gamepad1);
+        GamepadEx firstDriver = new GamepadEx(gamepad1);
 
         firstDriver.getGamepadButton(GamepadKeys.Button.SQUARE)
                 .whenPressed(() -> {

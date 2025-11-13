@@ -1,6 +1,8 @@
 package org.firstinspires.ftc.teamcode.config.subsystems;
 
 import com.qualcomm.robotcore.hardware.CRServo;
+import com.bylazar.telemetry.JoinedTelemetry;
+import com.bylazar.telemetry.PanelsTelemetry;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.util.Range;
@@ -20,9 +22,9 @@ public class Intake extends SubsystemBase implements IntakeConfiguration {
     private final CRServo transferRight;
     private final CRServo transferLeft;
     private double liftAngle;
-    private final Telemetry telemetry;
+    private final JoinedTelemetry telemetry;
     public Intake(HardwareMap hardwareMap, Telemetry telemetry) {
-        this.telemetry = telemetry;
+        this.telemetry = new JoinedTelemetry(PanelsTelemetry.INSTANCE.getFtcTelemetry(), telemetry);
 
         transferLeft = hardwareMap.get(CRServo.class, TRANSFER_LEFT);
         transferRight = hardwareMap.get(CRServo.class, TRANSFER_RIGHT);

@@ -1,5 +1,7 @@
 package org.firstinspires.ftc.teamcode.config.subsystems;
 
+import com.bylazar.telemetry.JoinedTelemetry;
+import com.bylazar.telemetry.PanelsTelemetry;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.util.Range;
 import com.seattlesolvers.solverslib.command.SubsystemBase;
@@ -13,7 +15,7 @@ public class Shooter extends SubsystemBase implements ShooterConfiguration {
     double upperPercentage;
     double lowerPercentage;
     private final MotorEx upper, lower;
-    private final Telemetry telemetry;
+    private final JoinedTelemetry telemetry;
     boolean isLowSpin = false;
     boolean isShooterOn = false;
 
@@ -34,7 +36,10 @@ public class Shooter extends SubsystemBase implements ShooterConfiguration {
         upper.setRunMode(Motor.RunMode.VelocityControl);
         lower.setRunMode(Motor.RunMode.VelocityControl);
 
-        this.telemetry = telemetry;
+        this.telemetry = new JoinedTelemetry(
+                PanelsTelemetry.INSTANCE.getFtcTelemetry(),
+                telemetry
+        );
         this.lowerForce = 1;
         this.upperForce = 1;
     }
@@ -92,6 +97,7 @@ public class Shooter extends SubsystemBase implements ShooterConfiguration {
     {
         telemetry.addData("Upper motor velocity: ", upper.getVelocity());
         telemetry.addData("Lower motor velocity: ", lower.getVelocity());
+        telemetry.update();
     }
     public void changeLowerForce(double amount) {
         this.lowerForce += amount;

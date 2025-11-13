@@ -2,9 +2,7 @@ package org.firstinspires.ftc.teamcode.opmodes.tests;
 
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
-import com.seattlesolvers.solverslib.drivebase.MecanumDrive;
 import com.seattlesolvers.solverslib.gamepad.GamepadEx;
-import com.seattlesolvers.solverslib.hardware.motors.Motor;
 
 import org.firstinspires.ftc.teamcode.config.subsystems.Chassis;
 
@@ -12,7 +10,7 @@ import org.firstinspires.ftc.teamcode.config.subsystems.Chassis;
 public class RobotCentricDriving extends LinearOpMode {
 
     @Override
-    public void runOpMode() throws InterruptedException {
+    public void runOpMode() {
 
         Chassis chassis;
         chassis = new Chassis(hardwareMap, telemetry);
