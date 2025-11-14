@@ -61,10 +61,8 @@ public class VLRTeleOP extends CommandOpMode {
                     if(!intake.isIntakeOn())
                     {
                         intake.setIntake(true);
-                        if (!shooter.isShooterOn()) shooter.setLowSpin(true);
                     } else {
                         intake.setIntake(false);
-                        if (!shooter.isShooterOn()) shooter.setLowSpin(false);
                     }
                 });
         firstDriver.getGamepadButton(GamepadKeys.Button.TRIANGLE)
