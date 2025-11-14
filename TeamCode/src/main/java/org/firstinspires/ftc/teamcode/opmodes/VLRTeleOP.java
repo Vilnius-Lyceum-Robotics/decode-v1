@@ -1,7 +1,5 @@
 package org.firstinspires.ftc.teamcode.opmodes;
 
-import com.acmerobotics.dashboard.FtcDashboard;
-import com.acmerobotics.dashboard.telemetry.MultipleTelemetry;
 import com.bylazar.telemetry.JoinedTelemetry;
 import com.bylazar.telemetry.PanelsTelemetry;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
@@ -46,6 +44,7 @@ public class VLRTeleOP extends CommandOpMode {
                         () -> shooter.isShooterOn()
                         )
                 );
+        /*
         firstDriver.getGamepadButton(GamepadKeys.Button.DPAD_UP)
                 .whenPressed(() -> shooter.changeLowerForce(0.1));
         firstDriver.getGamepadButton(GamepadKeys.Button.DPAD_DOWN)
@@ -53,7 +52,18 @@ public class VLRTeleOP extends CommandOpMode {
         firstDriver.getGamepadButton(GamepadKeys.Button.DPAD_RIGHT)
                 .whenPressed(() -> shooter.changeUpperForce(0.1));
         firstDriver.getGamepadButton(GamepadKeys.Button.DPAD_LEFT)
-                .whenPressed(() -> shooter.changeUpperForce(-0.1));
+                .whenPressed(() -> shooter.changeUpperForce(-0.1));*/
+
+
+        firstDriver.getGamepadButton(GamepadKeys.Button.DPAD_UP)
+                .whenPressed(() -> shooter.increaseUpperRPM(300));
+        firstDriver.getGamepadButton(GamepadKeys.Button.DPAD_DOWN)
+                .whenPressed(() -> shooter.decreaseUpperRPM(300));
+        firstDriver.getGamepadButton(GamepadKeys.Button.DPAD_LEFT)
+                .whenPressed(() -> shooter.increaseLowerRPM(300));
+        firstDriver.getGamepadButton(GamepadKeys.Button.DPAD_RIGHT)
+                .whenPressed(() -> shooter.decreaseLowerRPM(300));
+
         firstDriver.getGamepadButton(GamepadKeys.Button.CROSS)
                         .whenPressed(new BoostCommand(intake));
         firstDriver.getGamepadButton(GamepadKeys.Button.LEFT_BUMPER)
@@ -61,9 +71,11 @@ public class VLRTeleOP extends CommandOpMode {
                     if(!intake.isIntakeOn())
                     {
                         intake.setIntake(true);
+                        intake.setTransfer(true);
                         if (!shooter.isShooterOn()) shooter.setLowSpin(true);
                     } else {
                         intake.setIntake(false);
+                        intake.setTransfer(false);
                         if (!shooter.isShooterOn()) shooter.setLowSpin(false);
                     }
                 });
