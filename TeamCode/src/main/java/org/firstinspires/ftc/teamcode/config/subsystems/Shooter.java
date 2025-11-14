@@ -22,7 +22,13 @@ public class Shooter extends SubsystemBase implements ShooterConfiguration {
     double lowerForce;
     double upperForce;
 
+    int RPM_upper;
+    int RPM_lower;
+
     public Shooter(HardwareMap hardwareMap, Telemetry telemetry) {
+
+        this.RPM_upper = 0;
+        this.RPM_lower = 0;
 
         this.upperPercentage = 0;
         this.lowerPercentage = 0;
@@ -60,21 +66,25 @@ public class Shooter extends SubsystemBase implements ShooterConfiguration {
     }
 
     // FOR TESTING
-    public void increaseUpperRPM(int RPM)
-    {
-        upper.setVelocity(Math.min(upper.getVelocity() + RPM, upper.getMaxRPM()));
+    public void increaseUpperRPM(int RPM) {
+        RPM_upper = Math.min(RPM_upper + RPM, (int) upper.getMaxRPM());
+        upper.setVelocity(RPM_upper);
     }
-    public void increaseLowerRPM(int RPM)
-    {
-        lower.setVelocity(Math.min(lower.getVelocity() + RPM, lower.getMaxRPM()));
+
+    public void increaseLowerRPM(int RPM) {
+        RPM_lower = Math.min(RPM_lower + RPM, (int) lower.getMaxRPM());
+        lower.setVelocity(RPM_lower);
     }
+
     public void decreaseUpperRPM(int RPM)
     {
-        upper.setVelocity(Math.max(0, upper.getVelocity() - RPM));
+        RPM_upper = Math.max(0, RPM_upper - RPM);
+        upper.setVelocity(RPM_upper);
     }
     public void decreaseLowerRPM(int RPM)
     {
-        lower.setVelocity(Math.max(0, lower.getVelocity() - RPM));
+        RPM_lower = Math.max(0, RPM_lower - RPM);
+        lower.setVelocity(RPM_lower);
     }
     //
     public void shoot(){
