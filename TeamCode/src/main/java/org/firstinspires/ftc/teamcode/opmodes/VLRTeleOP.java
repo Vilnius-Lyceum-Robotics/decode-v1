@@ -60,6 +60,7 @@ public class VLRTeleOP extends CommandOpMode {
                     {
                         intake.setIntake(true);
                         intake.setTransfer(true);
+
                         if (!shooter.isShooterOn()) shooter.setLowSpin(true);
                     } else {
                         intake.setIntake(false);

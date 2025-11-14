@@ -126,6 +126,7 @@ public class Shooter extends SubsystemBase implements ShooterConfiguration {
     }
     public void changeLowerForce(double amount) {
         this.lowerForce += amount;
+
     }
 
     public void changeUpperForce(double amount) {
