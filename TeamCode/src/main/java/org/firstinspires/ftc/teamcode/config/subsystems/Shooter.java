@@ -5,6 +5,7 @@ import com.bylazar.telemetry.PanelsTelemetry;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.util.Range;
 import com.seattlesolvers.solverslib.command.SubsystemBase;
+import com.seattlesolvers.solverslib.command.WaitCommand;
 import com.seattlesolvers.solverslib.hardware.motors.Motor;
 import com.seattlesolvers.solverslib.hardware.motors.MotorEx;
 
@@ -86,7 +87,17 @@ public class Shooter extends SubsystemBase implements ShooterConfiguration {
         RPM_lower = Math.max(0, RPM_lower - RPM);
         lower.setVelocity(RPM_lower);
     }
-    //
+
+    public void shootLow()
+    {
+        upper.setVelocity(1500.0*3/4);
+        lower.setVelocity((1500.0*3/4));
+    }
+    public void shootHigh()
+    {
+        upper.setVelocity(1800.0*3/4);
+        lower.setVelocity(1800.0*3/4);
+    }
     public void shoot(){
         isShooterOn = true;
         lower.set(this.lowerForce);
@@ -106,21 +117,6 @@ public class Shooter extends SubsystemBase implements ShooterConfiguration {
     public boolean isShooterOn() {
         return isShooterOn;
     }
-    // SIMPLE LAUNCH TO DISTANCE
-    /*
-    void launchToDistance(int distance)
-    {
-        double h = 0.000; // initial launch height
-        double H = 0.000; // target height
-        double r = 0.000; // rotor radius
-        double k = 0.000; // slip constant (to tune)
-
-        double velocity = 60*Math.sqrt(9.8 * d * d / (d + h - H))/(2*3.14*r*(1-k)*lower.getMaxRPM());
-
-        shoot(velocity);
-    }
-     */
-
 
     public void telemetry()
     {
