@@ -36,7 +36,7 @@ public class Shooter extends SubsystemBase implements ShooterConfiguration {
         upper = new MotorEx(hardwareMap, SHOOTER_UPPER, Motor.GoBILDA.BARE);
         lower = new MotorEx(hardwareMap, SHOOTER_LOWER, Motor.GoBILDA.BARE);
 
-        lower.setInverted(true);
+        lower.setInverted(false);
         upper.setInverted(true);
 
         upper.setRunMode(Motor.RunMode.VelocityControl);
@@ -89,7 +89,7 @@ public class Shooter extends SubsystemBase implements ShooterConfiguration {
     //
     public void shoot(){
         isShooterOn = true;
-        lower.set(this.lowerForce);
+        lower.setVelocity(this.lowerForce);
         upper.set(this.upperForce);
     }
     public void stop(){
