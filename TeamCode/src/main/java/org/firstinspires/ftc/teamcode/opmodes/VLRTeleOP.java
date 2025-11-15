@@ -44,14 +44,14 @@ public class VLRTeleOP extends CommandOpMode {
                         () -> shooter.isShooterOn()
                         )
                 );
-        firstDriver.getGamepadButton(GamepadKeys.Button.DPAD_UP)
-                .whenPressed(() -> shooter.changeLowerForce(0.1));
         firstDriver.getGamepadButton(GamepadKeys.Button.DPAD_DOWN)
-                .whenPressed(() -> shooter.changeLowerForce(-0.1));
-        firstDriver.getGamepadButton(GamepadKeys.Button.DPAD_RIGHT)
-                .whenPressed(() -> shooter.changeUpperForce(0.1));
-        firstDriver.getGamepadButton(GamepadKeys.Button.DPAD_LEFT)
-                .whenPressed(() -> shooter.changeUpperForce(-0.1));
+                        .whenPressed(() -> {
+                            if (intake.isIntakeOn()) {
+                                intake.setIntake(false);
+                            } else {
+                                intake.setIntakeSpeed(-1);
+                            }
+                        });
         firstDriver.getGamepadButton(GamepadKeys.Button.CROSS)
                         .whenPressed(new BoostCommand(intake));
         firstDriver.getGamepadButton(GamepadKeys.Button.LEFT_BUMPER)
@@ -66,7 +66,7 @@ public class VLRTeleOP extends CommandOpMode {
                     }
                 });
         firstDriver.getGamepadButton(GamepadKeys.Button.TRIANGLE)
-                .whenPressed(() -> shooter.stop());
+                .whenPressed(() -> shooter.shootLow());
     }
 
     @Override
@@ -79,11 +79,9 @@ public class VLRTeleOP extends CommandOpMode {
                 firstDriver.getRightX()
         );
 
-        telemetry.addData("Strength lower: ", shooter.getLowerForce());
-        telemetry.addData("Strength upper: ", shooter.getUpperForce());
-        telemetry.addData("Lift pos: ", intake.getMappedLift());
-        telemetry.addData("Lift max: ", shootCommand.liftHoldPos);
         telemetry.addData("Intake speed: ", intake.getIntakeSpeed());
+
+        shooter.telemetry();
 
         telemetry.update();
     }

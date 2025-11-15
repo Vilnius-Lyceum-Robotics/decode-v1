@@ -52,14 +52,14 @@ public class Intake extends SubsystemBase implements IntakeConfiguration {
     }
 
     public void setIntake(boolean on){
+        intakeSpeed = 1;
         isIntakeOn = on;
         intake.set(on ? intakeSpeed : 0);
     }
     public void setIntakeSpeed(double speed){
         intakeSpeed = Range.clip(speed, -1, 1);
-        if(isIntakeOn){
-            intake.set(intakeSpeed);
-        }
+        intake.set(intakeSpeed);
+        isIntakeOn = true;
     }
     public void setIntakeSpeedRel(double change){
         setIntakeSpeed(intakeSpeed + change);

@@ -24,6 +24,11 @@ public class Chassis extends SubsystemBase implements ChassisConfiguration {
         rightRear.setInverted(true);
         leftRear.setInverted(true);
 
+        rightFront.setZeroPowerBehavior(Motor.ZeroPowerBehavior.BRAKE);
+        leftFront.setZeroPowerBehavior(Motor.ZeroPowerBehavior.BRAKE);
+        rightRear.setZeroPowerBehavior(Motor.ZeroPowerBehavior.BRAKE);
+        leftRear.setZeroPowerBehavior(Motor.ZeroPowerBehavior.BRAKE);
+
 //        pinpoint = hardwareMap.get(GoBildaPinpointDriver.class,"pinpoint");
 //        pinpoint.resetPosAndIMU();
 

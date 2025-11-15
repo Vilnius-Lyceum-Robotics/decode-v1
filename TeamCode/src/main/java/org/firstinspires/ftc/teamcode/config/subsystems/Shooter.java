@@ -90,18 +90,18 @@ public class Shooter extends SubsystemBase implements ShooterConfiguration {
 
     public void shootLow()
     {
-        upper.setVelocity(1500.0*3/4);
-        lower.setVelocity((1500.0*3/4));
+        upper.setVelocity(1500.0 * multiplierRPM);
+        lower.setVelocity((1500.0 * multiplierRPM));
+        isShooterOn = true;
     }
     public void shootHigh()
     {
-        upper.setVelocity(1800.0*3/4);
-        lower.setVelocity(1800.0*3/4);
+        upper.setVelocity(1800.0*multiplierRPM);
+        lower.setVelocity(1800.0*multiplierRPM);
     }
     public void shoot(){
         isShooterOn = true;
-        lower.setVelocity(this.lowerForce);
-        upper.set(this.upperForce);
+        shootHigh();
     }
     public void stop(){
         isShooterOn = false;
