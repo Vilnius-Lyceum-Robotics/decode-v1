@@ -61,12 +61,10 @@ public class TeleOpTest extends CommandOpMode {
                 .whenPressed(() -> {
                     intake.setIntake(true);
                     intake.setTransfer(true);
-                    shooter.setLowSpin(true);
                 })
                 .whenReleased(() -> {
                     intake.setIntake(false);
                     intake.setTransfer(false);
-                    shooter.setLowSpin(false);
                 });
     }
 
@@ -83,7 +81,6 @@ public class TeleOpTest extends CommandOpMode {
         telemetry.addData("Strength lower: ", shootCommand.getLowerForce());
         telemetry.addData("Strength upper: ", shootCommand.getUpperForce());
         telemetry.addData("Lift pos: ", intake.getMappedLift());
-        telemetry.addData("Lift real pos: ", intake.getRealLift());
         telemetry.addData("Intake speed: ", intake.getIntakeSpeed());
 
         telemetry.update();

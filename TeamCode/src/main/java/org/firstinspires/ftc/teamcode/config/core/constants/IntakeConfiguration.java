@@ -6,9 +6,9 @@ import com.acmerobotics.dashboard.config.Config;
 public interface IntakeConfiguration {
     String INTAKE_MOTOR = "intake";
     String LIFT_SERVO = "booster";
-    String TRANSFER_RIGHT = "transferRight";
-    String TRANSFER_LEFT = "transferLeft";
+    String TRANSFER_MOTOR = "transfer";
     double INTAKE_SPEED = 1;
+    double TRANSFER_SPEED = 0.5;
     double LIFT_MIN = 0.36;
     double LIFT_MAX = 0.42;
     double LIFT_DOWN_POS = 0.0;

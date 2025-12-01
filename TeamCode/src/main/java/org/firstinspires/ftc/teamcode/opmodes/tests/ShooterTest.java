@@ -31,6 +31,8 @@ public class ShooterTest extends CommandOpMode {
                 .whenPressed(() -> shooter.stop());
         firstDriver.getGamepadButton(GamepadKeys.Button.DPAD_LEFT)
                 .whenPressed(() -> shooter.shootLow());
+        firstDriver.getGamepadButton(GamepadKeys.Button.A)
+                .whenPressed(() -> shooter.shoot());
     }
 
 
