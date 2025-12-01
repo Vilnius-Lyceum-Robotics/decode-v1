@@ -60,11 +60,9 @@ public class TeleOpTest extends CommandOpMode {
         firstDriver.getGamepadButton(GamepadKeys.Button.SQUARE)
                 .whenPressed(() -> {
                     intake.setIntake(true);
-                    intake.setTransfer(true);
                 })
                 .whenReleased(() -> {
                     intake.setIntake(false);
-                    intake.setTransfer(false);
                 });
     }
 

@@ -59,10 +59,10 @@ public class VLRTeleOP extends CommandOpMode {
                     if(!intake.isIntakeOn())
                     {
                         intake.setIntake(true);
-                        intake.setTransfer(true);
+                        //intake.setTransfer(true);
                     } else {
                         intake.setIntake(false);
-                        intake.setTransfer(false);
+                        //intake.setTransfer(false);
                     }
                 });
         firstDriver.getGamepadButton(GamepadKeys.Button.TRIANGLE)
