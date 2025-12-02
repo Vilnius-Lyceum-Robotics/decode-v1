@@ -17,6 +17,7 @@ public class Intake extends SubsystemBase implements IntakeConfiguration {
     private double intakeSpeed = INTAKE_SPEED;
     private double transferSpeed = TRANSFER_SPEED;
     private boolean isIntakeOn = false;
+    private boolean isTransferOn = false;
     private final Servo lift;
     private double liftAngle;
     private final JoinedTelemetry telemetry;
@@ -27,23 +28,29 @@ public class Intake extends SubsystemBase implements IntakeConfiguration {
         transfer = new MotorEx(hardwareMap, TRANSFER_MOTOR, Motor.GoBILDA.BARE);
         lift = hardwareMap.get(Servo.class, LIFT_SERVO);
 
-        intake.setInverted(true);
-
         intake.setRunMode(Motor.RunMode.RawPower);
 
         intake.set(0);
         setLift(LIFT_DOWN_POS);
     }
     public void setIntake(boolean on){
-        intakeSpeed = 1;
         isIntakeOn = on;
         intake.set(on ? intakeSpeed : 0);
+    }
+    public void startTransfer() {
+        transfer.set(transferSpeed);
+        isTransferOn = true;
+    }
+    public void stopTransfer() {
+        transfer.stopMotor();
+        isTransferOn = false;
     }
     public void setIntakeSpeed(double speed){
         intakeSpeed = Range.clip(speed, -1, 1);
         intake.set(intakeSpeed);
         isIntakeOn = true;
     }
+    public boolean isTransferOn() {return isTransferOn;}
     public void setIntakeSpeedRel(double change){
         setIntakeSpeed(intakeSpeed + change);
     }

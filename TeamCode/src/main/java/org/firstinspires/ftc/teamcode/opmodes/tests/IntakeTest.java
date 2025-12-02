@@ -6,6 +6,8 @@ import com.bylazar.telemetry.JoinedTelemetry;
 import com.bylazar.telemetry.PanelsTelemetry;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.seattlesolvers.solverslib.command.CommandOpMode;
+import com.seattlesolvers.solverslib.command.ConditionalCommand;
+import com.seattlesolvers.solverslib.command.InstantCommand;
 import com.seattlesolvers.solverslib.gamepad.GamepadEx;
 import com.seattlesolvers.solverslib.gamepad.GamepadKeys;
 
@@ -26,18 +28,15 @@ public class IntakeTest extends CommandOpMode {
                 .whenPressed(() -> intake.setIntake(true))
                 .whenReleased(() -> intake.setIntake(false));
 
-        firstDriver.getGamepadButton(GamepadKeys.Button.DPAD_UP)
-                .whenPressed(() -> intake.setLiftRel(0.1));
-        firstDriver.getGamepadButton(GamepadKeys.Button.DPAD_DOWN)
-                .whenPressed(() -> intake.setLiftRel(-0.1));
         firstDriver.getGamepadButton(GamepadKeys.Button.TRIANGLE)
                 .whenPressed(() -> intake.setLift(LIFT_UP_POS))
                 .whenReleased(() -> intake.setLift(LIFT_DOWN_POS));
-
-        firstDriver.getGamepadButton(GamepadKeys.Button.LEFT_BUMPER)
-                .whenPressed(() -> intake.setIntakeSpeedRel(-0.1));
-        firstDriver.getGamepadButton(GamepadKeys.Button.RIGHT_BUMPER)
-                .whenPressed(() -> intake.setIntakeSpeedRel(0.1));
+        firstDriver.getGamepadButton(GamepadKeys.Button.CIRCLE)
+                .whenPressed(new ConditionalCommand(
+                        new InstantCommand(() -> intake.stopTransfer()),
+                        new InstantCommand(() -> intake.startTransfer()),
+                        () -> intake.isTransferOn()
+                ));
     }
 
     @Override
