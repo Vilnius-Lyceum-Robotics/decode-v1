@@ -1,7 +1,5 @@
 package org.firstinspires.ftc.teamcode.opmodes.tests;
 
-import com.acmerobotics.dashboard.FtcDashboard;
-import com.acmerobotics.dashboard.telemetry.MultipleTelemetry;
 import com.bylazar.telemetry.JoinedTelemetry;
 import com.bylazar.telemetry.PanelsTelemetry;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
@@ -70,7 +68,7 @@ public class TeleOpTest extends CommandOpMode {
     public void run(){
         super.run(); // DO NOT REMOVE! Runs FTCLib Command Scheduler
 
-        chassis.robotCentricDriving(
+        chassis.drive(
                 firstDriver.getLeftX(),
                 firstDriver.getLeftY(),
                 firstDriver.getRightX()

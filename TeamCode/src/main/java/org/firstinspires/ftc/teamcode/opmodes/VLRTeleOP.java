@@ -73,7 +73,7 @@ public class VLRTeleOP extends CommandOpMode {
     public void run(){
         super.run(); // DO NOT REMOVE! Runs FTCLib Command Scheduler
 
-        chassis.robotCentricDriving(
+        chassis.drive(
                 firstDriver.getLeftX(),
                 firstDriver.getLeftY(),
                 firstDriver.getRightX()

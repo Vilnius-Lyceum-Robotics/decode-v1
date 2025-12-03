@@ -28,10 +28,10 @@ public class RobotCentricDriving extends LinearOpMode {
             // respectively from [-1, 1].
 
             // optional fourth parameter for squared inputs
-            chassis.robotCentricDriving(
-                    firstDriver.getLeftX(),
+            chassis.drive(
                     firstDriver.getLeftY(),
-                    firstDriver.getRightX()
+                    -firstDriver.getLeftX(),
+                    -firstDriver.getRightX()
             );
 
         }
