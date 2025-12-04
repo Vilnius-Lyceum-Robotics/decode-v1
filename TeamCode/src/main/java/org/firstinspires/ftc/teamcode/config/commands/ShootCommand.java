@@ -1,12 +1,12 @@
 package org.firstinspires.ftc.teamcode.config.commands;
 
-import static org.firstinspires.ftc.teamcode.config.core.constants.IntakeConfiguration.LIFT_HOLD_POS;
-
 import com.qualcomm.robotcore.util.Range;
 import com.seattlesolvers.solverslib.command.InstantCommand;
 import com.seattlesolvers.solverslib.command.SequentialCommandGroup;
+import com.seattlesolvers.solverslib.command.WaitCommand;
 import com.seattlesolvers.solverslib.geometry.Vector2d;
 
+import org.firstinspires.ftc.teamcode.config.core.constants.ShooterConfiguration;
 import org.firstinspires.ftc.teamcode.config.subsystems.Intake;
 import org.firstinspires.ftc.teamcode.config.subsystems.Shooter;
 
@@ -57,11 +57,17 @@ public class ShootCommand extends SequentialCommandGroup {
     public ShootCommand(Intake intake, Shooter shooter, double initialForce){
         this(intake, shooter, initialForce, initialForce);
     }
-    public double liftHoldPos = LIFT_HOLD_POS;
     public ShootCommand(Intake intake, Shooter shooter, double initialForceLower, double initialForceUpper){
         lowerForce = initialForceLower;
         upperForce = initialForceUpper;
         addCommands(
+                new InstantCommand(() -> intake.setTransfer(1, true)),
+                new InstantCommand(() -> shooter.testValue++),
+                new WaitCommand(1000),
+                new InstantCommand(() -> shooter.setLift(ShooterConfiguration.LIFT_UP_POS)),
+                new WaitCommand(1000),
+                new InstantCommand(() -> intake.setTransfer(1, false)),
+                new InstantCommand(() -> shooter.setLift(ShooterConfiguration.LIFT_DOWN_POS))
         );
         addRequirements(intake, shooter);
     }

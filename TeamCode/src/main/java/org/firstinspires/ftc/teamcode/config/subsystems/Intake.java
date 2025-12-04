@@ -12,38 +12,64 @@ import com.seattlesolvers.solverslib.hardware.motors.MotorEx;
 import org.firstinspires.ftc.robotcore.external.Telemetry;
 import org.firstinspires.ftc.teamcode.config.core.constants.IntakeConfiguration;
 
+import java.util.HashSet;
+
 public class Intake extends SubsystemBase implements IntakeConfiguration {
     private final Motor intake, transfer;
     private double intakeSpeed = INTAKE_SPEED;
     private double transferSpeed = TRANSFER_SPEED;
     private boolean isIntakeOn = false;
     private boolean isTransferOn = false;
-    private final Servo lift;
-    private double liftAngle;
+    private BooleanHolder transferBooleanHolder = new BooleanHolder();
     private final JoinedTelemetry telemetry;
     public Intake(HardwareMap hardwareMap, Telemetry telemetry) {
         this.telemetry = new JoinedTelemetry(PanelsTelemetry.INSTANCE.getFtcTelemetry(), telemetry);
 
         intake = new MotorEx(hardwareMap, INTAKE_MOTOR, Motor.GoBILDA.BARE);
         transfer = new MotorEx(hardwareMap, TRANSFER_MOTOR, Motor.GoBILDA.BARE);
-        lift = hardwareMap.get(Servo.class, LIFT_SERVO);
 
         intake.setRunMode(Motor.RunMode.RawPower);
 
         intake.set(0);
-        setLift(LIFT_DOWN_POS);
     }
+    private static class BooleanHolder {
+        private HashSet<Integer> onInds = new HashSet<>();
+
+        public void setBool(int ind, boolean bool) {
+            if(bool){
+                onInds.add(ind);
+            }else{
+                onInds.remove(ind);
+            }
+        }
+        public boolean getValue(){
+            return onInds.size() > 0;
+        }
+    };
     public void setIntake(boolean on){
         isIntakeOn = on;
         intake.set(on ? intakeSpeed : 0);
     }
-    public void startTransfer() {
-        transfer.set(transferSpeed);
-        isTransferOn = true;
+    public void setTransfer(int ind, boolean on){
+        transferBooleanHolder.setBool(ind, on);
+        isTransferOn = transferBooleanHolder.getValue();
+        if(isTransferOn){
+            transfer.set(transferSpeed);
+        }else{
+            transfer.stopMotor();
+        }
     }
-    public void stopTransfer() {
-        transfer.stopMotor();
-        isTransferOn = false;
+    public void setTransfer(boolean on){
+        setTransfer(0, on);
+    }
+    public void setIntakeTransfer(boolean on){
+        if(on){
+            setTransfer(true);
+            setIntake(true);
+        }else{
+            setTransfer(false);
+            setIntake(false);
+        }
     }
     public void setIntakeSpeed(double speed){
         intakeSpeed = Range.clip(speed, -1, 1);
@@ -57,21 +83,8 @@ public class Intake extends SubsystemBase implements IntakeConfiguration {
     public double getIntakeSpeed(){
         return intakeSpeed;
     }
-    public double getMappedLift(){
-        return Range.scale(liftAngle, LIFT_MIN, LIFT_MAX, 0, 1);
-    }
-    public void setLift(double mappedAngle){
-        double clippedMappedAngle = Range.clip(mappedAngle, 0, 1);
-        liftAngle = Range.scale(clippedMappedAngle, 0, 1, LIFT_MIN, LIFT_MAX);
-        lift.setPosition(liftAngle);
-    }
-    public void setLiftRel(double mappedAngleChange){
-        setLift(getMappedLift()+mappedAngleChange);
-    }
 
     public void telemetry(){
-        telemetry.addData("Lift angle: ", getMappedLift());
-        telemetry.addData("Lift angle raw: ", liftAngle);
         telemetry.addData("Intake speed: ", intakeSpeed);
     }
 

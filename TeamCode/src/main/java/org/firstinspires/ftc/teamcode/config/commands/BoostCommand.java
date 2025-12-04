@@ -10,9 +10,9 @@ import org.firstinspires.ftc.teamcode.config.subsystems.Intake;
 public class BoostCommand extends SequentialCommandGroup {
     public BoostCommand(Intake intake) {
         addCommands(
-                new InstantCommand(() -> intake.setLift(IntakeConfiguration.LIFT_UP_POS)),
-                new WaitCommand(1000),
-                new InstantCommand(() -> intake.setLift(IntakeConfiguration.LIFT_DOWN_POS))
+//                new InstantCommand(() -> intake.setLift(IntakeConfiguration.LIFT_UP_POS)),
+                new WaitCommand(1000)
+//                new InstantCommand(() -> intake.setLift(IntakeConfiguration.LIFT_DOWN_POS))
         );
         addRequirements(intake);
     }

@@ -28,13 +28,13 @@ public class IntakeTest extends CommandOpMode {
                 .whenPressed(() -> intake.setIntake(true))
                 .whenReleased(() -> intake.setIntake(false));
 
-        firstDriver.getGamepadButton(GamepadKeys.Button.TRIANGLE)
-                .whenPressed(() -> intake.setLift(LIFT_UP_POS))
-                .whenReleased(() -> intake.setLift(LIFT_DOWN_POS));
+//        firstDriver.getGamepadButton(GamepadKeys.Button.TRIANGLE)
+//                .whenPressed(() -> intake.setLift(LIFT_UP_POS))
+//                .whenReleased(() -> intake.setLift(LIFT_DOWN_POS));
         firstDriver.getGamepadButton(GamepadKeys.Button.CIRCLE)
                 .whenPressed(new ConditionalCommand(
-                        new InstantCommand(() -> intake.stopTransfer()),
-                        new InstantCommand(() -> intake.startTransfer()),
+                        new InstantCommand(() -> intake.setTransfer(false)),
+                        new InstantCommand(() -> intake.setTransfer(true)),
                         () -> intake.isTransferOn()
                 ));
     }

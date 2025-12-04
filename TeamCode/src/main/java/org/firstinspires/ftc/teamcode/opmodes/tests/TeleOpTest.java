@@ -49,9 +49,9 @@ public class TeleOpTest extends CommandOpMode {
         firstDriver.getGamepadButton(GamepadKeys.Button.LEFT_BUMPER)
                 .whenPressed(() -> intake.setIntakeSpeed(intake.getIntakeSpeed()*rem));
         firstDriver.getGamepadButton(GamepadKeys.Button.RIGHT_STICK_BUTTON)
-                .whenPressed(() -> intake.setLiftRel(0.05));
+                .whenPressed(() -> shooter.setLiftRel(0.05));
         firstDriver.getGamepadButton(GamepadKeys.Button.LEFT_STICK_BUTTON)
-                .whenPressed(() -> intake.setLiftRel(-0.05));
+                .whenPressed(() -> shooter.setLiftRel(-0.05));
 
         firstDriver.getGamepadButton(GamepadKeys.Button.CROSS)
                 .whenPressed(() -> intake.setIntakeSpeed(-intake.getIntakeSpeed()));
@@ -76,7 +76,7 @@ public class TeleOpTest extends CommandOpMode {
 
         telemetry.addData("Strength lower: ", shootCommand.getLowerForce());
         telemetry.addData("Strength upper: ", shootCommand.getUpperForce());
-        telemetry.addData("Lift pos: ", intake.getMappedLift());
+        telemetry.addData("Lift pos: ", shooter.getMappedLift());
         telemetry.addData("Intake speed: ", intake.getIntakeSpeed());
 
         telemetry.update();

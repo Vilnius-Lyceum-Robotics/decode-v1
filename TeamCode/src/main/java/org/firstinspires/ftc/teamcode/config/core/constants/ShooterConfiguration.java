@@ -8,7 +8,13 @@ import com.bylazar.configurables.annotations.Configurable;
 public interface ShooterConfiguration {
 
     String SHOOTER_MOTOR = "shooter";
+    String LIFT_SERVO = "lift";
     public double multiplierRPM = 0.7;
 
     double LOW_SPIN_FORCE = 0.08;
+    double LIFT_MIN = 0.36;
+    double LIFT_MAX = 0.42;
+    double LIFT_DOWN_POS = 0.0;
+    double LIFT_HOLD_POS = 0.4;
+    double LIFT_UP_POS = 1;
 }

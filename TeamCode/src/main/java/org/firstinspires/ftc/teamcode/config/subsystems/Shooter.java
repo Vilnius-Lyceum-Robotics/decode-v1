@@ -3,6 +3,7 @@ package org.firstinspires.ftc.teamcode.config.subsystems;
 import com.bylazar.telemetry.JoinedTelemetry;
 import com.bylazar.telemetry.PanelsTelemetry;
 import com.qualcomm.robotcore.hardware.HardwareMap;
+import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.util.Range;
 import com.seattlesolvers.solverslib.command.SubsystemBase;
 import com.seattlesolvers.solverslib.hardware.motors.Motor;
@@ -16,8 +17,12 @@ public class Shooter extends SubsystemBase implements ShooterConfiguration {
     private final JoinedTelemetry telemetry;
     boolean isShooterOn = false;
     int shooter_rpm;
-
+    private final Servo lift;
+    private double liftAngle;
+    public int testValue = 0;
     public Shooter(HardwareMap hardwareMap, Telemetry telemetry) {
+
+        lift = hardwareMap.get(Servo.class, LIFT_SERVO);
 
         this.shooter_rpm = 0;
 
@@ -30,6 +35,8 @@ public class Shooter extends SubsystemBase implements ShooterConfiguration {
                 PanelsTelemetry.INSTANCE.getFtcTelemetry(),
                 telemetry
         );
+
+        setLift(LIFT_DOWN_POS);
     }
 
     public void shootLow()
@@ -38,7 +45,7 @@ public class Shooter extends SubsystemBase implements ShooterConfiguration {
     }
     public void shootHigh()
     {
-        shooter.setVelocity(1800.0*multiplierRPM);
+        shooter.setVelocity(1800.0 * multiplierRPM);
     }
     public void shoot(){
         isShooterOn = true;
@@ -54,10 +61,25 @@ public class Shooter extends SubsystemBase implements ShooterConfiguration {
     public void telemetry()
     {
         telemetry.addData("Shooter motor velocity: ", shooter.getVelocity());
+        telemetry.addData("Lift angle: ", getMappedLift());
+        telemetry.addData("Lift angle raw: ", liftAngle);
+        telemetry.addData("Lift misc: ", testValue);
         telemetry.update();
     }
     public boolean isShooterOn() {
         return isShooterOn;
+    }
+
+    public double getMappedLift(){
+        return Range.scale(liftAngle, LIFT_MIN, LIFT_MAX, 0, 1);
+    }
+    public void setLift(double mappedAngle){
+        double clippedMappedAngle = Range.clip(mappedAngle, 0, 1);
+        liftAngle = Range.scale(clippedMappedAngle, 0, 1, LIFT_MIN, LIFT_MAX);
+        lift.setPosition(liftAngle);
+    }
+    public void setLiftRel(double mappedAngleChange){
+        setLift(getMappedLift()+mappedAngleChange);
     }
     /*
     public void setUpperVelocity(double value) {
