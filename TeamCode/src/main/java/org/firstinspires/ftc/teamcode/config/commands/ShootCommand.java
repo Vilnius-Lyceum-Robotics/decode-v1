@@ -62,7 +62,6 @@ public class ShootCommand extends SequentialCommandGroup {
         upperForce = initialForceUpper;
         addCommands(
                 new InstantCommand(() -> intake.setTransfer(1, true)),
-                new InstantCommand(() -> shooter.testValue++),
                 new WaitCommand(1000),
                 new InstantCommand(() -> shooter.setLift(ShooterConfiguration.LIFT_UP_POS)),
                 new WaitCommand(1000),

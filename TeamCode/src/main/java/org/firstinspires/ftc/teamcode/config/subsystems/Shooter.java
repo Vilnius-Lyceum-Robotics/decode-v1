@@ -19,7 +19,6 @@ public class Shooter extends SubsystemBase implements ShooterConfiguration {
     int shooter_rpm;
     private final Servo lift;
     private double liftAngle;
-    public int testValue = 0;
     public Shooter(HardwareMap hardwareMap, Telemetry telemetry) {
 
         lift = hardwareMap.get(Servo.class, LIFT_SERVO);
@@ -63,7 +62,6 @@ public class Shooter extends SubsystemBase implements ShooterConfiguration {
         telemetry.addData("Shooter motor velocity: ", shooter.getVelocity());
         telemetry.addData("Lift angle: ", getMappedLift());
         telemetry.addData("Lift angle raw: ", liftAngle);
-        telemetry.addData("Lift misc: ", testValue);
         telemetry.update();
     }
     public boolean isShooterOn() {
