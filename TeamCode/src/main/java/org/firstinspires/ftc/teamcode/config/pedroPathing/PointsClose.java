@@ -7,7 +7,6 @@ public class Points {
 
     public static final Pose SHOOT_POS = new Pose(72, 72, Math.toRadians(135));
 
-
     //INTAKE_1
     public static final Pose PREPARE_TO_INTAKE_POS_1 = new Pose(36, 84, Math.toRadians(180));
     public static final Pose FINAL_INTAKE_POS_1 = new Pose(20, 84, Math.toRadians(180));

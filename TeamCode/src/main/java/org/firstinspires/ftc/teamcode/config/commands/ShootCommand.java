@@ -1,10 +1,8 @@
 package org.firstinspires.ftc.teamcode.config.commands;
 
-import com.qualcomm.robotcore.util.Range;
 import com.seattlesolvers.solverslib.command.InstantCommand;
 import com.seattlesolvers.solverslib.command.SequentialCommandGroup;
 import com.seattlesolvers.solverslib.command.WaitCommand;
-import com.seattlesolvers.solverslib.geometry.Vector2d;
 
 import org.firstinspires.ftc.teamcode.config.core.constants.ShooterConfiguration;
 import org.firstinspires.ftc.teamcode.config.subsystems.Intake;
