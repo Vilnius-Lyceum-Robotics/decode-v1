@@ -23,5 +23,10 @@ public class AutoOp extends LinearOpMode {
         intake = new Intake(hardwareMap, telemetry);
         shooter = new Shooter(hardwareMap, telemetry);
         chassis = new Chassis(hardwareMap, telemetry);
+
+        waitForStart();
+//        if (opModeIsActive()) {
+//
+//        }
     }
 }
