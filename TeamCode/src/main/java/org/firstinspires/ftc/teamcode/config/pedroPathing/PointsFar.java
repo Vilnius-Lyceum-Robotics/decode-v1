@@ -2,7 +2,7 @@ package org.firstinspires.ftc.teamcode.config.pedroPathing;
 
 import com.pedropathing.geometry.Pose;
 
-public class Points2 {
+public class PointsFar {
     public static final Pose START_POS = new Pose(12, 132, Math.toRadians(135));
 
     public static final Pose SHOOT_POS = new Pose(72, 72, Math.toRadians(135));
