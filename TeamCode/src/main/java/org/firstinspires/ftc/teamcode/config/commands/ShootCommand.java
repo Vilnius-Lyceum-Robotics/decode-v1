@@ -14,9 +14,9 @@ public class ShootCommand extends SequentialCommandGroup {
 
         addCommands(
                 new InstantCommand(() -> intake.setTransfer(1, true)),
-                new WaitCommand(1000),
+                new WaitCommand(500),
                 new InstantCommand(() -> shooter.setLift(ShooterConfiguration.LIFT_UP_POS)),
-                new WaitCommand(1000),
+                new WaitCommand(500),
                 new InstantCommand(() -> intake.setTransfer(1, false)),
                 new InstantCommand(() -> shooter.setLift(ShooterConfiguration.LIFT_DOWN_POS))
         );
