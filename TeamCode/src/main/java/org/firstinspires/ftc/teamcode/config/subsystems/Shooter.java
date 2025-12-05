@@ -15,20 +15,31 @@ import org.firstinspires.ftc.teamcode.config.core.constants.ShooterConfiguration
 public class Shooter extends SubsystemBase implements ShooterConfiguration {
     private final MotorEx shooter;
     private final JoinedTelemetry telemetry;
+    private final Servo hood;
     boolean isShooterOn = false;
-    int shooter_rpm;
+    double shooter_rpm;
     private final Servo lift;
     private double liftAngle;
+    //Hood is kinda useless rn
+    private double hoodPos;
+    private double HOOD_STEP = 0.005;
+
+
     public Shooter(HardwareMap hardwareMap, Telemetry telemetry) {
 
         lift = hardwareMap.get(Servo.class, LIFT_SERVO);
 
         this.shooter_rpm = 0;
 
+        hood = hardwareMap.get(Servo.class, SHOOTER_HOOD);
         shooter = new MotorEx(hardwareMap, SHOOTER_MOTOR, Motor.GoBILDA.BARE);
 
         shooter.setRunMode(Motor.RunMode.VelocityControl);
         shooter.setZeroPowerBehavior(Motor.ZeroPowerBehavior.BRAKE);
+
+        hood.setPosition(0.1);
+        hoodPos = 0.1;
+
 
         this.telemetry = new JoinedTelemetry(
                 PanelsTelemetry.INSTANCE.getFtcTelemetry(),
@@ -38,30 +49,60 @@ public class Shooter extends SubsystemBase implements ShooterConfiguration {
         setLift(LIFT_DOWN_POS);
     }
 
-    public void shootLow()
+    private static class Preset{
+        final protected double rpm, hoodPos;
+        protected Preset(double rpm, double hoodPos){
+            this.rpm = rpm;
+            this.hoodPos = hoodPos;
+        }
+    }
+    private final Preset[] presets = new Preset[]{
+        new Preset(1850, 0.10),
+        new Preset(2150, 0.16),
+        new Preset(2650, 0.18)
+    };
+    public void shooterPreset(int index)
     {
-        shooter.setVelocity(1500.0 * multiplierRPM);
+        shooter.setVelocity(presets[index].rpm*multiplierRPM);
+        hoodPos = presets[index].hoodPos;
+        hood.setPosition(hoodPos);
     }
-    public void shootHigh()
+
+    //TESTING
+    public void hoodUp() {
+          hoodPos = Range.clip(hoodPos + HOOD_STEP, 0, 1);
+          hood.setPosition(hoodPos);
+      }
+      public void hoodDown() {
+          hoodPos = Range.clip(hoodPos - HOOD_STEP, 0, 1);
+          hood.setPosition(hoodPos);
+    }
+    public void shooterUp()
     {
-        shooter.setVelocity(1800.0 * multiplierRPM);
+        shooter_rpm = Range.clip(shooter_rpm + 50, 0, 2800);
+        shooter.setVelocity(shooter_rpm*multiplierRPM);
     }
-    public void shoot(){
-        isShooterOn = true;
-        shootMax();
+    public void shooterDown()
+    {
+        shooter_rpm = Range.clip(shooter_rpm - 50, 0, 2800);
+        shooter.setVelocity(shooter_rpm*multiplierRPM);
     }
-    public void shootMax() {
-        shooter.setVelocity(shooter.getMaxRPM());
-    }
-    public void stop(){
+
+
+//    public void shootMax() {
+//        shooter.setVelocity(shooter.getMaxRPM());
+//    }
+    public void stopShooter(){
         isShooterOn = false;
         shooter.stopMotor();
     }
     public void telemetry()
     {
         telemetry.addData("Shooter motor velocity: ", shooter.getVelocity());
+        telemetry.addData("Hood spin: ", hoodPos);
         telemetry.addData("Lift angle: ", getMappedLift());
         telemetry.addData("Lift angle raw: ", liftAngle);
+        telemetry.addData("Shooter rpm: ", shooter_rpm);
         telemetry.update();
     }
     public boolean isShooterOn() {
@@ -79,83 +120,4 @@ public class Shooter extends SubsystemBase implements ShooterConfiguration {
     public void setLiftRel(double mappedAngleChange){
         setLift(getMappedLift()+mappedAngleChange);
     }
-    /*
-    public void setUpperVelocity(double value) {
-        upperPercentage = Range.clip(value, 0, 1);
-        upper.setVelocity(upper.getMaxRPM() * upperPercentage);
-    }
-
-    public void setLowerVelocity(double value) {
-        lowerPercentage = Range.clip(value, 0, 1);
-        double speedToUse = Math.max(lowerPercentage, isLowSpin ? LOW_SPIN_FORCE : 0);
-        if (speedToUse <= 1e-6) {
-            lower.stopMotor();
-        } else {
-            lower.setVelocity(lower.getMaxRPM() * speedToUse);
-        }
-    }
-
-    // FOR TESTING
-    public void increaseUpperRPM(int RPM) {
-        shooter_rpm = Math.min(shooter_rpm + RPM, (int) upper.getMaxRPM());
-        upper.setVelocity(shooter_rpm);
-    }
-
-    public void increaseLowerRPM(int RPM) {
-        RPM_lower = Math.min(RPM_lower + RPM, (int) lower.getMaxRPM());
-        lower.setVelocity(RPM_lower);
-    }
-
-    public void decreaseUpperRPM(int RPM)
-    {
-        shooter_rpm = Math.max(0, shooter_rpm - RPM);
-        upper.setVelocity(shooter_rpm);
-    }
-    public void decreaseLowerRPM(int RPM)
-    {
-        RPM_lower = Math.max(0, RPM_lower - RPM);
-        lower.setVelocity(RPM_lower);
-    }
-
-    public void shootLow()
-    {
-        upper.setVelocity(1500.0 * multiplierRPM);
-        lower.setVelocity((1500.0 * multiplierRPM));
-        isShooterOn = true;
-    }
-    public void shootHigh()
-    {
-        upper.setVelocity(1800.0*multiplierRPM);
-        lower.setVelocity(1800.0*multiplierRPM);
-    }
-    public void shoot(){
-        isShooterOn = true;
-        shootHigh();
-    }
-    public void stop(){
-        isShooterOn = false;
-        upper.stopMotor();
-        lower.stopMotor();
-        lowerPercentage = 0;
-        upperPercentage = 0;
-    }
-    public void setLowSpin(boolean lowSpin){
-        isLowSpin = lowSpin;
-        setLowerVelocity(lowerPercentage); //Low spin isn't reflected in lowerPercentage
-    }
-    public void changeLowerForce(double amount) {
-        this.lowerForce += amount;
-    }
-
-    public void changeUpperForce(double amount) {
-        this.upperForce += amount;
-    }
-
-    public double getUpperForce() {
-        return upperForce;
-    }
-
-    public double getLowerForce() {
-        return lowerForce;
-    } */
 }

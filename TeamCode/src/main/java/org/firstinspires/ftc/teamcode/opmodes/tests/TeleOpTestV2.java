@@ -31,13 +31,24 @@ public class TeleOpTestV2 extends CommandOpMode {
 
         driver = new GamepadEx(gamepad1);
 
-        shootCommand = new ShootCommand(intake, shooter, 1);
-        driver.getGamepadButton(GamepadKeys.Button.CIRCLE)
+        shootCommand = new ShootCommand(intake, shooter);
+        driver.getGamepadButton(GamepadKeys.Button.RIGHT_BUMPER)
                 .whenPressed(shootCommand);
         driver.getGamepadButton(GamepadKeys.Button.DPAD_UP)
                 .whenPressed(() -> intake.setIntakeTransfer(true));
         driver.getGamepadButton(GamepadKeys.Button.DPAD_DOWN)
                 .whenPressed(() -> intake.setIntakeTransfer(false));
+        //SHOOTER
+        driver.getGamepadButton(GamepadKeys.Button.CROSS)
+                .whenPressed(() -> shooter.stopShooter());
+        driver.getGamepadButton(GamepadKeys.Button.SQUARE)
+                .whenPressed(() -> shooter.shooterPreset(0));
+        driver.getGamepadButton(GamepadKeys.Button.TRIANGLE)
+                .whenPressed(() -> shooter.shooterPreset(1));
+        driver.getGamepadButton(GamepadKeys.Button.CIRCLE)
+                .whenPressed(() -> shooter.shooterPreset(2));
+
+
     }
 
     @Override
@@ -45,9 +56,9 @@ public class TeleOpTestV2 extends CommandOpMode {
         super.run(); // DO NOT REMOVE! Runs FTCLib Command Scheduler
 
         chassis.drive(
-                driver.getLeftX(),
                 driver.getLeftY(),
-                driver.getRightX()
+                -driver.getLeftX(),
+                -driver.getRightX()
         );
 
         shooter.telemetry();

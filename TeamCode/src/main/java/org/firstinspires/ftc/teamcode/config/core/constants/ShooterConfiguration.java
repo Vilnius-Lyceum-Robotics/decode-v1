@@ -9,7 +9,8 @@ public interface ShooterConfiguration {
 
     String SHOOTER_MOTOR = "shooter";
     String LIFT_SERVO = "lift";
-    public double multiplierRPM = 0.7;
+    String SHOOTER_HOOD = "hood";
+    public double multiplierRPM = 0.6;
 
     double LOW_SPIN_FORCE = 0.08;
     double LIFT_MIN = 0.36;
