@@ -47,7 +47,7 @@ public class Chassis extends SubsystemBase implements ChassisConfiguration {
     }
 
     public void drive(double x, double y, double r) {
-        Vector2d vector = new Vector2d(x_filter.estimatePower(x), y_filter.estimatePower(y) * strafeMultiplier);
+        Vector2d vector = new Vector2d(x_filter.estimatePower(x), y_filter.estimatePower(y) * strafeMultiplier); // USE FOR AUTO
 
         double frontLeftSpeed = x - y - (2 * FRONT_TRACK_RADIUS * r);
         double frontRightSpeed = x + y + (2 * FRONT_TRACK_RADIUS * r);
