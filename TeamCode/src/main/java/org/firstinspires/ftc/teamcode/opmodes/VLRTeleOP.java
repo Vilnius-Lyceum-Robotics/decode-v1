@@ -34,12 +34,12 @@ public class VLRTeleOP extends CommandOpMode {
 
         firstDriver = new GamepadEx(gamepad1);
 
-        final double rem = 0.85;
+        /*final double rem = 0.85;
         final double add = 1d/rem;
-        shootCommand = new ShootCommand(intake, shooter, 1);
+        shootCommand = new ShootCommand(intake, shooter);
         firstDriver.getGamepadButton(GamepadKeys.Button.RIGHT_BUMPER)
                 .whenPressed(new ConditionalCommand(
-                        new InstantCommand(() -> shooter.stop()),
+                        new InstantCommand(() -> shooter.stopShooter()),
                         new InstantCommand(() -> shooter.shoot()),
                         () -> shooter.isShooterOn()
                         )
@@ -83,6 +83,6 @@ public class VLRTeleOP extends CommandOpMode {
 
         shooter.telemetry();
 
-        telemetry.update();
+        telemetry.update();*/
     }
 }
