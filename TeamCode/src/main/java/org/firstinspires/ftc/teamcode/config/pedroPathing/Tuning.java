@@ -891,13 +891,13 @@ class DriveTuner extends OpMode {
 
         forwards = follower.pathBuilder()
                 .setGlobalDeceleration()
-                .addPath(new BezierLine(new Pose(0,0), new Pose(DISTANCE,0)))
-                .setConstantHeadingInterpolation(0)
+                .addPath(new BezierLine(new Pose(48,48), new Pose(DISTANCE,48)))
+                .setTangentHeadingInterpolation()
                 .build();
 
         backwards = follower.pathBuilder()
                 .setGlobalDeceleration()
-                .addPath(new BezierLine(new Pose(DISTANCE,0), new Pose(0,0)))
+                .addPath(new BezierLine(new Pose(DISTANCE,48), new Pose(48,48)))
                 .setConstantHeadingInterpolation(0)
                 .build();
 
@@ -962,9 +962,9 @@ class Line extends OpMode {
     @Override
     public void start() {
         follower.activateAllPIDFs();
-        forwards = new Path(new BezierLine(new Pose(0,0), new Pose(DISTANCE,0)));
+        forwards = new Path(new BezierLine(new Pose(120,120), new Pose(DISTANCE,120)));
         forwards.setConstantHeadingInterpolation(0);
-        backwards = new Path(new BezierLine(new Pose(DISTANCE,0), new Pose(0,0)));
+        backwards = new Path(new BezierLine(new Pose(DISTANCE,120), new Pose(120,120)));
         backwards.setConstantHeadingInterpolation(0);
         follower.followPath(forwards);
     }
