@@ -62,14 +62,16 @@ public class Intake extends SubsystemBase implements IntakeConfiguration {
     public void setTransfer(boolean on){
         setTransfer(0, on);
     }
-    public void setIntakeTransfer(boolean on){
-        if(on){
-            setTransfer(true);
-            setIntake(true);
-        }else{
+    public void setIntakeTransfer(int dir){
+        dir = Range.clip(dir, -1, 1);
+        if(dir == 0){
             setTransfer(false);
             setIntake(false);
+            return;
         }
+        transfer.setInverted(dir == -1);
+        setTransfer(true);
+        setIntake(true);
     }
     public void setIntakeSpeed(double speed){
         intakeSpeed = Range.clip(speed, -1, 1);

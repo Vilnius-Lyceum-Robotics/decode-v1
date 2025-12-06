@@ -33,11 +33,11 @@ public class TeleOpTestV2 extends CommandOpMode {
 
         shootCommand = new ShootCommand(intake, shooter);
         driver.getGamepadButton(GamepadKeys.Button.RIGHT_BUMPER)
-                .whenPressed(shootCommand);
-        driver.getGamepadButton(GamepadKeys.Button.DPAD_UP)
-                .whenPressed(() -> intake.setIntakeTransfer(true));
+                .whenPressed(() -> intake.setIntakeTransfer(1));
+        driver.getGamepadButton(GamepadKeys.Button.LEFT_BUMPER)
+                .whenPressed(() -> intake.setIntakeTransfer(0));
         driver.getGamepadButton(GamepadKeys.Button.DPAD_DOWN)
-                .whenPressed(() -> intake.setIntakeTransfer(false));
+                .whenPressed(() -> intake.setIntakeTransfer(-1));
         //SHOOTER
         driver.getGamepadButton(GamepadKeys.Button.CROSS)
                 .whenPressed(() -> shooter.stopShooter());
@@ -60,6 +60,12 @@ public class TeleOpTestV2 extends CommandOpMode {
                 -driver.getLeftX(),
                 -driver.getRightX()
         );
+
+        telemetry.addData("Trigger: ", driver.getTrigger(GamepadKeys.Trigger.RIGHT_TRIGGER));
+        if(driver.getTrigger(GamepadKeys.Trigger.RIGHT_TRIGGER) > 0.5){
+            telemetry.addLine("Scheduled command");
+            shootCommand.schedule();
+        }
 
         shooter.telemetry();
 

@@ -1,5 +1,9 @@
 package org.firstinspires.ftc.teamcode.opmodes.auto;
 
+import static org.firstinspires.ftc.teamcode.config.pedroPathing.PointsFar.SHOOT_POS2;
+import static org.firstinspires.ftc.teamcode.config.pedroPathing.PointsFar.SHOOT_POS3;
+import static org.firstinspires.ftc.teamcode.config.pedroPathing.PointsFar.START_POS;
+
 import com.bylazar.telemetry.JoinedTelemetry;
 import com.bylazar.telemetry.PanelsTelemetry;
 import com.pedropathing.follower.Follower;
@@ -15,12 +19,11 @@ import org.firstinspires.ftc.teamcode.config.pedroPathing.Constants;
 import org.firstinspires.ftc.teamcode.config.subsystems.Chassis;
 import org.firstinspires.ftc.teamcode.config.subsystems.Intake;
 import org.firstinspires.ftc.teamcode.config.subsystems.Shooter;
-import static org.firstinspires.ftc.teamcode.config.pedroPathing.PointsFar.*;
 
 import java.util.ArrayList;
 
-@Autonomous(name = "Auto test v1.1", group = "Auto")
-public class FirstAutoTest extends OpMode {
+@Autonomous(name = "Auto test v1.4", group = "Auto")
+public class FirstAutoTest4 extends OpMode {
     private class PathHolder extends StageHandler{
         private PathChain path;
         public PathHolder(PathChain path){
@@ -76,15 +79,11 @@ public class FirstAutoTest extends OpMode {
                 .setConstantHeadingInterpolation(pos2.getHeading())
                 .build();
     }
+    PathChain path1;
+    PathChain path2;
     public void buildCommands(){
-        ArrayList<StageHandler> stagesList = new ArrayList<>();
-
-        stagesList.add(new PathHolder(getPath(START_POS, SHOOT_POS)));
-//        stagesList.add(new CommandHolder(shootCommand));
-//        stagesList.add(new PathHolder(getPath(SHOOT_POS, START_POS)));
-
-        stages = new StageHandler[stagesList.size()];
-        stages = stagesList.toArray(stages);
+        path1 = getPath(START_POS, SHOOT_POS3);
+        path2 = getPath(SHOOT_POS3, START_POS);
     }
     @Override
     public void init() {
@@ -99,16 +98,34 @@ public class FirstAutoTest extends OpMode {
 
         buildCommands();
 
-        telemetry.addData("Stages found: ", stages.length);
+//        telemetry.addData("Stages found: ", stages.length);
         telemetry.update();
     }
+    public void start(){
+        pathState = 0;
+    }
 
+    private int pathState = -1;
     public void autoUpdate() {
-        telemetry.addData("Running loop with stage ", stageInd);
-        if(stageInd >= stages.length || (stageInd > 0 && stages[stageInd].isBusy())) return;
-        stageInd++;
-        if(stageInd >= stages.length) return;
-        stages[stageInd].start();
+        telemetry.addData("Current state: ", pathState);
+
+        switch (pathState) {
+            case 0:
+                f.followPath(path1);
+                pathState = 1;
+                break;
+            case 1:
+                if(!f.isBusy()) {
+                    f.followPath(path2,true);
+                    pathState = 2;
+                }
+                break;
+            case 2:
+                if(!f.isBusy()) {
+                    pathState = -1;
+                }
+                break;
+        }
     }
 
     @Override

@@ -59,7 +59,8 @@ public class Shooter extends SubsystemBase implements ShooterConfiguration {
     private final Preset[] presets = new Preset[]{
         new Preset(1850, 0.10),
         new Preset(2150, 0.16),
-        new Preset(2650, 0.18)
+        new Preset(2650, 0.18),
+        new Preset(800, 0),
     };
     public void shooterPreset(int index)
     {
@@ -119,5 +120,9 @@ public class Shooter extends SubsystemBase implements ShooterConfiguration {
     }
     public void setLiftRel(double mappedAngleChange){
         setLift(getMappedLift()+mappedAngleChange);
+    }
+    public void setLiftRelRaw(double changedAngle){
+        liftAngle += changedAngle;
+        lift.setPosition(liftAngle);
     }
 }

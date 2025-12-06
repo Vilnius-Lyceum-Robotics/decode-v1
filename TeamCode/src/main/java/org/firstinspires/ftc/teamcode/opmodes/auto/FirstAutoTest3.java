@@ -1,5 +1,9 @@
 package org.firstinspires.ftc.teamcode.opmodes.auto;
 
+import static org.firstinspires.ftc.teamcode.config.pedroPathing.PointsFar.SHOOT_POS;
+import static org.firstinspires.ftc.teamcode.config.pedroPathing.PointsFar.SHOOT_POS2;
+import static org.firstinspires.ftc.teamcode.config.pedroPathing.PointsFar.START_POS;
+
 import com.bylazar.telemetry.JoinedTelemetry;
 import com.bylazar.telemetry.PanelsTelemetry;
 import com.pedropathing.follower.Follower;
@@ -15,12 +19,11 @@ import org.firstinspires.ftc.teamcode.config.pedroPathing.Constants;
 import org.firstinspires.ftc.teamcode.config.subsystems.Chassis;
 import org.firstinspires.ftc.teamcode.config.subsystems.Intake;
 import org.firstinspires.ftc.teamcode.config.subsystems.Shooter;
-import static org.firstinspires.ftc.teamcode.config.pedroPathing.PointsFar.*;
 
 import java.util.ArrayList;
 
-@Autonomous(name = "Auto test v1.1", group = "Auto")
-public class FirstAutoTest extends OpMode {
+@Autonomous(name = "Auto test v1.3", group = "Auto")
+public class FirstAutoTest3 extends OpMode {
     private class PathHolder extends StageHandler{
         private PathChain path;
         public PathHolder(PathChain path){
@@ -79,7 +82,7 @@ public class FirstAutoTest extends OpMode {
     public void buildCommands(){
         ArrayList<StageHandler> stagesList = new ArrayList<>();
 
-        stagesList.add(new PathHolder(getPath(START_POS, SHOOT_POS)));
+        stagesList.add(new PathHolder(getPath(START_POS, SHOOT_POS2)));
 //        stagesList.add(new CommandHolder(shootCommand));
 //        stagesList.add(new PathHolder(getPath(SHOOT_POS, START_POS)));
 
